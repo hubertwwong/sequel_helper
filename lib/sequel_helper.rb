@@ -30,6 +30,20 @@ class SequelHelper
     self.connect
   end
   
+  # INSERT METHODS
+  ############################################################################
+  
+  # checks to see if the row values are not in the db before you insert.
+  def insert_unique(table_name, insert_param)
+    #puts table_name
+    #puts insert_param.inspect
+    if !self.row_exist?(table_name, insert_param)
+      tab = @client.from(table_name).insert(insert_param)
+      return true
+    else
+      return false
+    end
+  end
   
   
   # SELECT methods

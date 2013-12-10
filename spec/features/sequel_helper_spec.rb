@@ -30,6 +30,33 @@ describe SequelHelper do
     end
   end
 
+  describe "INSERT" do
+    before(:each) do
+      @db_cred = {
+        :adapter => "mysql2",
+        :host => "localhost",
+        :database => "space_ship",
+        :user => "root",
+        :password => "password"
+      }
+      @db_table_name = "fleet"
+    end
+    
+    describe "insert_unique" do
+      it "false case" do
+        sq = SequelHelper.new @db_cred
+        insert_param = {:name => "name2", :description => "description2"}
+        expect(sq.insert_unique(@db_table_name, insert_param)).to eq(false)
+      end
+      
+      it "true case" do
+        sq = SequelHelper.new @db_cred
+        insert_param = {:name => "name" + Random.rand(999999999999).to_s, :description => "description" + Random.rand(999999999999).to_s}
+        expect(sq.insert_unique(@db_table_name, insert_param)).to eq(true)
+      end
+    end
+  end  
+
   describe "QUERY" do
     before(:each) do
       @db_cred = {
