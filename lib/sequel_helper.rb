@@ -1,73 +1,70 @@
-require "rubygems"
 require "sequel"
-require "mysql2"
 
 class SequelHelper
   
-  attr_accessor :client, :url, :user, :password, :db_name, :table_name, :filename
+  attr_accessor :adapter, :host, :client, :user, :password, :database
   
   def initialize(params = {})
     # make the params optional.
     params = {
+              adapter: nil,
+              host: nil,
               client: nil,
               url: nil, 
               user: nil, 
               password: nil,
-              db_name: nil,
-              table_name: nil,
-              filename: nil
+              database: nil
              }.merge(params)
     
     # load params into instance variables.
-    @url = params.fetch(:url)
+    @adapter = params.fetch(:adapter)
+    @host = params.fetch(:host)
     @user = params.fetch(:user)
     @password = params.fetch(:password)
-    @db_name = params.fetch(:db_name)
-    @table_name = params.fetch(:table_name)
-    @filename = params.fetch(:filename)
+    @database = params.fetch(:db_name)
+    
+    # @client is the sequel object.
+    # when its connected.
     
     # connect to db.
     self.connect
   end
   
-  def load_data(params = {})
-    final_params = self.inject_db_params_with_filename(params)
-    gld = GenLoadData.create(final_params)
-    
-    # run the query if its returns a string and not false
-    if gld != false
-      @client.query(gld)
-    else
-      return false
-    end
-  end
   
-  # helper methods
+  
+  # SELECT methods
   ############################################################################
   
-  # inject_db_params_with_filename
-  #
-  # injects the db_name, table_name, and file_name
-  # into the param hash.
-  # used for the string generation functions.
-  def inject_db_params_with_filename(params = {})
-    injected_params = params
-    injected_params[:db_name] = @db_Name
-    injected_params[:table_name] = @table_name
-    injected_params[:filename] = @filename
-    
-    return injected_params
+  def select(params = {})
+    return "pie"
   end
   
+  
+  # MISC METHODS
+  ############################################################################
+  
+  # convert sequel results to an array of hashes.
+  # in sequel, results are in its own data struct.
+  # if you call all rows, it returns as an array of hashes.
+  # if you do a where call, you can call this on the results
+  # so it will return it as an array of hashes.
+  def to_array_of_hashes(sequel_results)
+    if sequel_results == nil
+      return nil
+    else
+      result = Array.new
+      sequel_results.each do |item|
+        result.push(item)  
+      end
+      return result
+    end
+  end
+
   # inject_db_params
-  #
-  # injects the db_name, table_name
-  # into the param hash.
-  # used for the string generation functions.
+  # might not nbe needed.
   def inject_db_params(params = {})
     injected_params = params
-    injected_params[:db_name] = @db_Name
-    injected_params[:table_name] = @table_name
+    injected_params[:database] = @database
     
     return injected_params
   end
@@ -77,10 +74,10 @@ class SequelHelper
   
   # connects to db.
   def connect
-    # connect to db.      
-    @client = Mysql2::Client.new(:host => @url, 
-                             :database => @db_name,
-                             :username => @user, 
+    @client = Sequel.connect(:adapter => @adapter, 
+                             :host => @host, 
+                             :database => @database, 
+                             :user => @user, 
                              :password => @password)
   end
   
