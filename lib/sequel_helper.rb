@@ -1,5 +1,7 @@
 require "sequel"
 
+require_relative "gen/gen_load_data"
+
 class SequelHelper
   
   attr_accessor :adapter, :host, :client, :user, :password, :database
@@ -30,7 +32,24 @@ class SequelHelper
     self.connect
   end
   
-  # INSERT METHODS
+  # LOAD DATA methods
+  ############################################################################
+  
+  # imports csv into a table.
+  def load_data(params = {})
+    db_str = GenLoadData.load_data(params)
+    @client.run db_str
+  end
+  
+  # TABLE methods
+  ############################################################################
+  
+  # clones a table.
+  def clone_table(orig_name, new_name)
+    @client.run "CREATE TABLE " + new_name + " LIKE " + orig_name + ";" 
+  end
+  
+  # INSERT methods
   ############################################################################
   
   # checks to see if the row values are not in the db before you insert.
