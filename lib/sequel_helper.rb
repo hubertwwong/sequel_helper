@@ -32,6 +32,9 @@ class SequelHelper
     self.connect
   end
   
+  
+  
+  
   # LOAD DATA methods
   ############################################################################
   
@@ -41,6 +44,9 @@ class SequelHelper
     @client.run db_str
   end
   
+  
+  
+  
   # TABLE methods
   ############################################################################
   
@@ -49,10 +55,13 @@ class SequelHelper
     @client.run "CREATE TABLE " + new_name + " LIKE " + orig_name + ";" 
   end
   
+  
+  
   # INSERT methods
   ############################################################################
   
   # checks to see if the row values are not in the db before you insert.
+  # **** DELETE THIS *****
   def insert_unique(table_name, insert_param)
     #puts table_name
     #puts insert_param.inspect
@@ -64,6 +73,15 @@ class SequelHelper
     end
   end
   
+  # WORKING ON IT...
+  # broken...
+  def insert_select_not_found(table_name)
+    insert_stmt = "date, symbol, open, high, low, close, adj_close, volume"
+    select_stmt = ""
+    @client[:fleet].insert(insert_stmt).select(select_stmt).sql
+  end
+  
+  
   
   # SELECT methods
   ############################################################################
@@ -72,6 +90,30 @@ class SequelHelper
   #  puts "KAHAN..................."
   #  return "pie"
   #end
+  
+  
+  
+  # CSV_IMPORT methods
+  ############################################################################
+  
+  # imports a csv into an existing table...
+  #
+  # has to take a round about way to do since LOAD DATA has some weird quirks.
+  # it won't check the if the rows exist before inserting.
+  # so this function will handle that...
+  # 
+  # basically it does this.
+  # 1. create a temp table. using the like command.
+  # 2. load csv data into this table.
+  # 3. make a select statement, that compares the temp table against the actual
+  #    table you want to insert. this will return rows that don't exist.
+  # 4. insert #3 into the original table.
+  # 5. (optional...) might add an update existing rows...
+  # 6. delete temp table.
+  def csv_import(params={})
+    
+  end
+  
   
   # QUERY methods
   ############################################################################

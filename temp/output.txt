@@ -1,0 +1,36 @@
+.***..................***....F...
+
+Pending:
+  GenLoadData create basic
+    # Temporarily disabled with xit
+    # ./spec/features/gen/gen_load_data_spec.rb:6
+  GenLoadData create full
+    # Temporarily disabled with xit
+    # ./spec/features/gen/gen_load_data_spec.rb:17
+  GenLoadData create full v2
+    # Temporarily disabled with xit
+    # ./spec/features/gen/gen_load_data_spec.rb:33
+  SequelHelper LOAD_DATA load_data basic
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:24
+  SequelHelper TABLE clone_table basic
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:43
+  SequelHelper TABLE drop basic
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:50
+
+Failures:
+
+  1) SequelHelper CSVIMPORT basic
+     Failure/Error: expect(sq.import_csv(params)).to eq(true)
+     NoMethodError:
+       undefined method `import_csv' for #<SequelHelper:0x9b06a18>
+     # ./spec/features/sequel_helper_spec.rb:137:in `block (3 levels) in <top (required)>'
+
+Finished in 5.98 seconds
+33 examples, 1 failure, 6 pending
+
+Failed examples:
+
+rspec ./spec/features/sequel_helper_spec.rb:130 # SequelHelper CSVIMPORT basic

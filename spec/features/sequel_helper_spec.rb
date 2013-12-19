@@ -21,7 +21,7 @@ describe SequelHelper do
                 :col_names => ["@dummy", "name", "description"]}
       end
       
-      it "basic" do
+      xit "basic" do
         sq = SequelHelper.new @db_cred
         expect(sq.load_data(@load_param)).to eq(true)
       end
@@ -72,12 +72,14 @@ describe SequelHelper do
       it "returns an array" do
         sq = SequelHelper.new @db_cred
         result = sq.client.from(:fleet).all
+        
         expect(result.instance_of?(Array)).to eq(true)
       end
       
       it "1st item is a hash" do
         sq = SequelHelper.new @db_cred
         result = sq.client.from(:fleet).all
+        
         expect(result[0].instance_of?(Hash)).to eq(true)
       end
     end
@@ -99,14 +101,40 @@ describe SequelHelper do
       it "false case" do
         sq = SequelHelper.new @db_cred
         insert_param = {:name => "name2", :description => "description2"}
+        
         expect(sq.insert_unique(@db_table_name, insert_param)).to eq(false)
       end
       
       it "true case" do
         sq = SequelHelper.new @db_cred
-        insert_param = {:name => "name" + Random.rand(999999999999).to_s, :description => "description" + Random.rand(999999999999).to_s}
+        insert_param = {:name => "name" + Random.rand(999999999999).to_s, 
+                        :description => "description" + Random.rand(999999999999).to_s}
+                        
         expect(sq.insert_unique(@db_table_name, insert_param)).to eq(true)
       end
+    end
+  end
+  
+  describe "CSVIMPORT" do
+    before(:each) do
+      @db_cred = {
+        :adapter => "mysql2",
+        :host => "localhost",
+        :database => "space_ship",
+        :user => "root",
+        :password => "password"
+      }
+      @db_table_name = "fleet"
+    end
+    
+    it "basic" do
+      sq = SequelHelper.new @db_cred
+      params = {:filename => "/user/home/fleet.csv",
+                :table_name => "fleet",
+                :table_cols => ["name", "description"],
+                :key_cols => ["name"]}
+      
+      expect(sq.import_csv(params)).to eq(true)
     end
   end  
 

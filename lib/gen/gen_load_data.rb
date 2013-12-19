@@ -47,7 +47,9 @@ class GenLoadData
     
     col_names = params.fetch(:col_names)
     set_col_names = params.fetch(:set_col_names)
+    
     # INTIAL CHECKS
+    ###############
     
     # check if path exist.
     # if it doesn't exit the path.
