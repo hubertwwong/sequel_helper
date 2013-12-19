@@ -129,10 +129,16 @@ describe SequelHelper do
     
     it "basic" do
       sq = SequelHelper.new @db_cred
-      params = {:filename => "/user/home/fleet.csv",
+      csv_params = {:filename => "/home/user/fleet.csv",
+                    :table_name => "fleet",
+                    :line_term_by => "\r\n",
+                    :col_names => ["@dummy", "name", "description"]}
+                         
+      params = {:csv_params => csv_params,
                 :table_name => "fleet",
                 :table_cols => ["name", "description"],
                 :key_cols => ["name"]}
+                
       
       expect(sq.import_csv(params)).to eq(true)
     end

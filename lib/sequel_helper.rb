@@ -42,6 +42,7 @@ class SequelHelper
   def load_data(params = {})
     db_str = GenLoadData.load_data(params)
     @client.run db_str
+    return true
   end
   
   
@@ -75,10 +76,18 @@ class SequelHelper
   
   # WORKING ON IT...
   # broken...
-  def insert_select_not_found(table_name)
-    insert_stmt = "date, symbol, open, high, low, close, adj_close, volume"
-    select_stmt = ""
-    @client[:fleet].insert(insert_stmt).select(select_stmt).sql
+  #def insert_select_not_found(table_name)
+  #  insert_stmt = "date, symbol, open, high, low, close, adj_close, volume"
+  #  select_stmt = ""
+  #  @client[:fleet].insert(insert_stmt).select(select_stmt).sql
+  #end
+  
+  # insert select statement.
+  # allows you to insert based off a table view.
+  def insert_select(params = {})
+    db_str = GenInsert.insert_select(params)
+    @client.run db_str
+    return true
   end
   
   
@@ -91,28 +100,6 @@ class SequelHelper
   #  return "pie"
   #end
   
-  
-  
-  # CSV_IMPORT methods
-  ############################################################################
-  
-  # imports a csv into an existing table...
-  #
-  # has to take a round about way to do since LOAD DATA has some weird quirks.
-  # it won't check the if the rows exist before inserting.
-  # so this function will handle that...
-  # 
-  # basically it does this.
-  # 1. create a temp table. using the like command.
-  # 2. load csv data into this table.
-  # 3. make a select statement, that compares the temp table against the actual
-  #    table you want to insert. this will return rows that don't exist.
-  # 4. insert #3 into the original table.
-  # 5. (optional...) might add an update existing rows...
-  # 6. delete temp table.
-  def csv_import(params={})
-    
-  end
   
   
   # QUERY methods
@@ -132,6 +119,98 @@ class SequelHelper
       return true
     end
   end
+  
+  
+  
+  # CSV_IMPORT methods
+  ############################################################################
+  
+  # imports a csv into an existing table...
+  #
+  # has to take a round about way to do since LOAD DATA has some weird quirks.
+  # it won't check the if the rows exist before inserting.
+  # so this function will handle that...
+  # 
+  # basically it does this.
+  # 1. create a temp table. using the like command.
+  # 2. load csv data into this table.
+  # 3. make a select statement, that compares the temp table against the actual
+  #    table you want to insert. this will return rows that don't exist.
+  #    insert into the original table. (3 and 4 are 1 SQL statement...)
+  # 5. (optional...) might add an update existing feature
+  # 6. delete temp table.
+  #
+  def import_csv(params={})
+    # load params into instance variables.
+    csv_params = params.fetch(:csv_params)
+    table_name_orig = params.fetch(:table_name)
+    table_cols = params.fetch(:table_cols)
+    # column names of the table that you are working on.
+    # just needs to be the stuff that you are inserting.
+    key_cols = params.fetch(:key_cols)
+    # keys that you want to match against
+    # it could be an id or a
+    table_name_temp = table_name_orig + "temp"
+    # adding the sql table name so you can distinguish col from one table
+    # to another.
+    table_name_orig_s = table_name_orig + " o"
+    table_name_temp_s = table_name_orig + "temp t"
+    
+    # 1. clone temp table.
+    #self.clone_table(table_name_orig, table_name_temp)
+    
+    # 2. load csv into table.
+    #self.load_data(csv_params)
+    
+    # create the select statement....
+    select_str = "o." + table_cols[0]
+    table_cols.each_with_index do |table_col, i|
+      # skip the first item since you used it already.
+      if i != 0
+        select_str = select_str + ", " + "o." + table_col
+      end
+    end
+    
+    # need to prefix the key cols with the sql table name.
+    # 
+    # looks like this.
+    # f.date=b.date AND f.symbol=b.symbol
+    on_str = "o." + key_cols[0] + "=t." + key_cols[0]
+    key_cols.each_with_index do |key_col, i|
+      # skip the first item since you used it already.
+      if i != 0
+        on_str = on_str + " AND " + "o." + key_col + "=t." + key_col
+      end
+    end
+    
+    # creating the where statement...
+    # using the keys cols...
+    # after the join, you are checking for keys that are null.
+    # these are basically the rows that you haven't seen yet and want to insert.
+    where_str = "o." + key_cols[0] + " IS NULL"
+    key_cols.each_with_index do |key_col, i|
+      # skip the first item since you used it already.
+      if i != 0
+        where_str = where_str + " AND " + "o." + key_col + " IS NULL"
+      end
+    end
+    
+    # 3. insert select statement.
+    insert_params = {:table_name => table_name_orig,
+                     :into_flag => true,
+                     :table_cols => table_cols,
+                     :select_stmt => select_str +
+                        " FROM " + table_name_orig_s + " LEFT JOIN " + table_name_temp_s +
+                        " ON " + on_str +
+                        " WHERE "+ where_str}
+    self.insert_select insert_params
+    
+    # 4. drop table.
+    
+    return true
+  end
+  
+  
   
   # MISC METHODS
   ############################################################################
@@ -156,7 +235,7 @@ class SequelHelper
 
 
   
-  # connections
+  # DB Connections
   ############################################################################
   
   # connects to db.

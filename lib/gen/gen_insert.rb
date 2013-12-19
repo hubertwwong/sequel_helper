@@ -56,6 +56,9 @@ class GenInsert
     
     db_str = db_str + " SELECT " + select_stmt + ";"
     
+    # debug
+    GenString.pp db_str
+    
     return db_str
   end
 
