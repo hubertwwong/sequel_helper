@@ -1,4 +1,4 @@
-require 'sequel_helper'
+require 'sequel_helper', :git => "git://github.com/hubertwwong/sequel_helper.git"
 
 # testing out to see if the gem was built correctly.
 db_cred = {:adapter => "mysql2",
