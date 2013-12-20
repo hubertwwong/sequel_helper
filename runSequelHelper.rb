@@ -1,4 +1,4 @@
-require 'sequel_helper', :git => "git://github.com/hubertwwong/sequel_helper.git"
+require 'sequel_helper'
 
 # testing out to see if the gem was built correctly.
 db_cred = {:adapter => "mysql2",
@@ -7,9 +7,10 @@ db_cred = {:adapter => "mysql2",
             :user => "root",
             :password => "password"}
 
+puts "> init >>>>>>>>>>>>"
 ms = SequelHelper.new db_cred
-puts ms.hello
-      
+
+puts "> import_csv >>>>>>>>>>>"      
 csv_params = {:filename => "/home/user/fleet.csv",
               :line_term_by => "\r\n",
               :col_names => ["@dummy", "name", "description"]}

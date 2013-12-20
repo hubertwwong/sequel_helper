@@ -25,6 +25,9 @@ class SequelHelper
     @password = params.fetch(:password)
     @database = params.fetch(:database)
     
+    puts "sequel_helper init params"
+    puts params.to_s
+    
     # @client is the sequel object.
     # when its connected.
     
