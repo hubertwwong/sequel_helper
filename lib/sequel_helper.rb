@@ -13,7 +13,6 @@ class SequelHelper
               adapter: nil,
               host: nil,
               client: nil,
-              url: nil, 
               user: nil, 
               password: nil,
               database: nil

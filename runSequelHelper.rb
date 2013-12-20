@@ -9,7 +9,6 @@ db_cred = {:adapter => "mysql2",
 
 ms = SequelHelper.new db_cred
 puts ms.hello
-
       
 csv_params = {:filename => "/home/user/fleet.csv",
               :line_term_by => "\r\n",
