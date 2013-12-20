@@ -5,6 +5,12 @@ require_relative "gen_string"
 # a string generating class so you can load into db.
 class GenLoadData
   
+  attr_accessor :low_priority_flag, :concurrent_flag, :local_flag,
+                :replace_flag, :ignore_flag, :skip_num_lines,
+                :fields_term_by, :fields_enclosed_by, :fields_escaped_by,
+                :line_start_by, :line_term_by, :set_col_names,
+                :filename, :table_name
+  
   # constructs the mysql string to insert the data
   def self.load_data(params = {})
     # make some of the params optional.

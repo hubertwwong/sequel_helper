@@ -1,6 +1,7 @@
 require "sequel"
 
 require_relative "gen/gen_load_data"
+require_relative "gen/gen_insert"
 
 class SequelHelper
   
@@ -157,17 +158,20 @@ class SequelHelper
     table_name_temp_s = table_name_orig + "temp t"
     
     # 1. clone temp table.
-    #self.clone_table(table_name_orig, table_name_temp)
+    self.clone_table(table_name_orig, table_name_temp)
     
     # 2. load csv into table.
-    #self.load_data(csv_params)
+    # need to use the temp table to load the csvv
+    # not the original one.
+    csv_params[:table_name] = table_name_temp
+    self.load_data(csv_params)
     
     # create the select statement....
-    select_str = "o." + table_cols[0]
+    select_str = "t." + table_cols[0]
     table_cols.each_with_index do |table_col, i|
       # skip the first item since you used it already.
       if i != 0
-        select_str = select_str + ", " + "o." + table_col
+        select_str = select_str + ", " + "t." + table_col
       end
     end
     
@@ -200,12 +204,19 @@ class SequelHelper
                      :into_flag => true,
                      :table_cols => table_cols,
                      :select_stmt => select_str +
-                        " FROM " + table_name_orig_s + " LEFT JOIN " + table_name_temp_s +
+                        " FROM " + table_name_temp_s + " LEFT JOIN " + table_name_orig_s +
                         " ON " + on_str +
                         " WHERE "+ where_str}
     self.insert_select insert_params
     
-    # 4. drop table.
+    # the update... remember that the temp table...
+    # is the one that has all of the data..
+    # in this case, the temp table is foo, not bar..
+    #UPDATE foo f LEFT JOIN bar b ON f.symbol=b.symbol AND f.date=b.date
+    #SET b.open=f.open, b.high=f.high, b.low=f.low, b.close=f.close, b.adj_close=f.adj_close, b.volume=f.volume;
+    
+    # 4. drop the temp table.
+    @client.drop_table table_name_temp 
     
     return true
   end
