@@ -1,4 +1,4 @@
-require_relative "../../../lib/gen/gen_string"
+require_relative "../../../../lib/sequel_helper/gen/gen_string"
 
 describe GenString do
   

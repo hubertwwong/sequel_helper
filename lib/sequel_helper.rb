@@ -1,7 +1,7 @@
 require "sequel"
 
-require_relative "gen/gen_load_data"
-require_relative "gen/gen_insert"
+require_relative "sequel_helper/gen/gen_load_data"
+require_relative "sequel_helper/gen/gen_insert"
 
 class SequelHelper
   

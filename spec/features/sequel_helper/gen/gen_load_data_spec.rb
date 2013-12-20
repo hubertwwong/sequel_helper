@@ -1,4 +1,4 @@
-require_relative "../../../lib/gen/gen_load_data"
+require_relative "../../../../lib/sequel_helper/gen/gen_load_data"
 
 describe GenLoadData do
   
