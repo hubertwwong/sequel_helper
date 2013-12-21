@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    logger (1.2.8)
     mysql2 (0.3.14)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
@@ -17,6 +18,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  logger
   mysql2
   rspec
   sequel
