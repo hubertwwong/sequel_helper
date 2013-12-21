@@ -10,6 +10,11 @@ db_cred = {:adapter => "mysql2",
 puts "> init >>>>>>>>>>>>"
 ms = SequelHelper.new db_cred
 
+# logger...
+puts "logger attached"
+ms.client.sql_log_level = :debug
+ms.client.loggers << Logger.new($stdout)
+
 puts "> import_csv >>>>>>>>>>>"      
 csv_params = {:filename => "/home/user/fleet.csv",
               :line_term_by => "\r\n",
