@@ -1,4 +1,5 @@
 require "sequel"
+require "logger"
 
 require_relative "sequel_helper/gen/gen_load_data"
 require_relative "sequel_helper/gen/gen_insert"
