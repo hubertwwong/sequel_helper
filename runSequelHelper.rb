@@ -15,6 +15,10 @@ puts "logger attached"
 ms.client.sql_log_level = :debug
 ms.client.loggers << Logger.new($stdout)
 
+# testing out the use of client...
+puts "select all"
+ms.client[:fleet].all
+
 puts "> import_csv >>>>>>>>>>>"      
 csv_params = {:filename => "/home/user/fleet.csv",
               :line_term_by => "\r\n",

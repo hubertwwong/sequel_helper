@@ -56,6 +56,7 @@ class SequelHelper
   ############################################################################
   
   # clones a table.
+  # MYSQL SYNTAX.
   def clone_table(orig_name, new_name)
     @client.run "CREATE TABLE " + new_name + " LIKE " + orig_name + ";" 
   end
@@ -160,14 +161,19 @@ class SequelHelper
     table_name_orig_s = table_name_orig + " o"
     table_name_temp_s = table_name_orig + "temp t"
     
+    # 0. drop temp table if exist.
+    @client.drop_table? table_name_temp 
+    
     # 1. clone temp table.
     self.clone_table(table_name_orig, table_name_temp)
+    #puts ">> CLONING TABLE " + table_name_orig + " t " + table_name_temp
     
     # 2. load csv into table.
     # need to use the temp table to load the csvv
     # not the original one.
     csv_params[:table_name] = table_name_temp
     self.load_data(csv_params)
+    puts ">> LOAD DATA "# + table_name_temp + " " + csv_params.to_s
     
     # create the select statement....
     select_str = "t." + table_cols[0]
@@ -211,6 +217,7 @@ class SequelHelper
                         " ON " + on_str +
                         " WHERE "+ where_str}
     self.insert_select insert_params
+    puts ">> INSERT SELECT " + insert_params.to_s
     
     # the update... remember that the temp table...
     # is the one that has all of the data..
@@ -219,7 +226,7 @@ class SequelHelper
     #SET b.open=f.open, b.high=f.high, b.low=f.low, b.close=f.close, b.adj_close=f.adj_close, b.volume=f.volume;
     
     # 4. drop the temp table.
-    @client.drop_table table_name_temp 
+    @client.drop_table? table_name_temp 
     
     return true
   end
