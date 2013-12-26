@@ -91,7 +91,9 @@ class SequelHelper
   # allows you to insert based off a table view.
   def insert_select(params = {})
     db_str = GenInsert.insert_select(params)
+    puts db_str
     @client.run db_str
+    
     return true
   end
   
@@ -147,6 +149,7 @@ class SequelHelper
   #
   def import_csv(params={})
     # load params into instance variables.
+    ######################################
     csv_params = params.fetch(:csv_params)
     table_name_orig = params.fetch(:table_name)
     table_cols = params.fetch(:table_cols)
@@ -162,13 +165,19 @@ class SequelHelper
     table_name_temp_s = table_name_orig + "temp t"
     
     # 0. drop temp table if exist.
+    ##############################
+    
     @client.drop_table? table_name_temp 
     
     # 1. clone temp table.
+    ######################
+    
     self.clone_table(table_name_orig, table_name_temp)
     #puts ">> CLONING TABLE " + table_name_orig + " t " + table_name_temp
     
     # 2. load csv into table.
+    #########################
+    
     # need to use the temp table to load the csvv
     # not the original one.
     csv_params[:table_name] = table_name_temp
@@ -209,6 +218,8 @@ class SequelHelper
     end
     
     # 3. insert select statement.
+    #############################
+    
     insert_params = {:table_name => table_name_orig,
                      :into_flag => true,
                      :table_cols => table_cols,
@@ -226,7 +237,8 @@ class SequelHelper
     #SET b.open=f.open, b.high=f.high, b.low=f.low, b.close=f.close, b.adj_close=f.adj_close, b.volume=f.volume;
     
     # 4. drop the temp table.
-    @client.drop_table? table_name_temp 
+    #########################
+    #@client.drop_table? table_name_temp 
     
     return true
   end

@@ -136,9 +136,10 @@ class GenLoadData
     
     # if you have titles, add a number to skip those lines
     # so they don't get put into the db.
-    if skip_num_lines != nil && skip_num_lines > 0
+    if skip_num_lines != nil && skip_num_lines.to_i > 0
       db_str = db_str + " IGNORE " + skip_num_lines.to_s + " LINES"
     end
+    puts "SKIPLINENUM " + skip_num_lines.to_s + " " + (skip_num_lines != nil && skip_num_lines.to_i > 0).to_s
     
     # col names
     # define the column names db that correspond csv col
