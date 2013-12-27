@@ -102,29 +102,8 @@ class GenString
   # output:
   #   "foo, bar, baz"
   def self.array_to_comma_str(array_params)
-    if array_params == nil
-      return nil
-    elsif array_params.length == 1
-      return array_params[0]
-    elsif array_params.length > 0
-      # load first param.
-      final_str = array_params[0]
-      
-      # load other strings.
-      array_params.each_with_index do |array_param, i|
-        # skip the first item since you used it already.
-        if i != 0
-          final_str = final_str + ", " + array_param
-        end
-      end
-      
-      # return it.
-      return final_str
-    end
-    
-    # if it fails the param checks,
-    # return nil. user didn't enter a correct value.
-    return nil
+    return self.array_to_str({:array_vals => array_params,
+                              :seperator => ", "})
   end
   
   # a low level array to string. using low level in quotes.
