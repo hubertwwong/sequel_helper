@@ -187,13 +187,19 @@ class SequelHelper
     # 3. create the select statement in insert select
     #################################################
     
-    select_str = "t." + table_cols[0]
-    table_cols.each_with_index do |table_col, i|
-      # skip the first item since you used it already.
-      if i != 0
-        select_str = select_str + ", " + "t." + table_col
-      end
-    end
+    select_str_params = {:array_vals => table_cols,
+                         :seperator => ", ",
+                         :prefix => "t."}
+    
+    select_str = GenString.array_to_str select_str_params
+    
+    #select_str = "t." + table_cols[0]
+    #table_cols.each_with_index do |table_col, i|
+    #  # skip the first item since you used it already.
+    #  if i != 0
+    #    select_str = select_str + ", " + "t." + table_col
+    #  end
+    #end
     
     # need to prefix the key cols with the sql table name.
     # 
@@ -211,13 +217,20 @@ class SequelHelper
     # using the keys cols...
     # after the join, you are checking for keys that are null.
     # these are basically the rows that you haven't seen yet and want to insert.
-    where_str = "o." + key_cols[0] + " IS NULL"
-    key_cols.each_with_index do |key_col, i|
-      # skip the first item since you used it already.
-      if i != 0
-        where_str = where_str + " AND " + "o." + key_col + " IS NULL"
-      end
-    end
+    where_str_params = {:array_vals => key_cols,
+                         :seperator => " AND ",
+                         :prefix => "o.",
+                         :suffix => " IS NULL"}
+    
+    where_str = GenString.array_to_str where_str_params
+    
+    #where_str = "o." + key_cols[0] + " IS NULL"
+    #key_cols.each_with_index do |key_col, i|
+    #  # skip the first item since you used it already.
+    #  if i != 0
+    #    where_str = where_str + " AND " + "o." + key_col + " IS NULL"
+    #  end
+    #end
     
     # 4. insert select statement.
     #############################
