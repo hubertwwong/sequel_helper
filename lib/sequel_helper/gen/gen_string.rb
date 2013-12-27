@@ -5,7 +5,7 @@ class GenString
   # compound functions.
   ############################################################################
   
-  # converts an array of sttring to a paren closed one.
+  # converts an array of string to a paren closed one.
   def self.paren_array_to_comma_str(array_params)
     comma_str = self.array_to_comma_str(array_params)
     return self.enclose_with_paren(comma_str)
@@ -28,7 +28,6 @@ class GenString
     end  
   end
 
-  # NOT TESTED.
   # appends a string if the argument is true.
   # if it is nil, just return the main string.
   def self.append_if_true(main_str, str_to_append, bool_value, space_flag=false)

@@ -79,6 +79,18 @@ describe GenString do
         expect(result).to eq(nil)
       end
     end
+    
+    describe "append_if_true" do
+      it "barbarbar fofofo" do
+        main_str = "barbarbar"
+        append_str = "fofofo"
+        bool_value = true
+        space_flag = true
+        result = GenString.append_if_true(main_str, append_str, bool_value, space_flag)
+        
+        expect(result).to eq("barbarbar fofofo")
+      end
+    end
   end
   
   describe "enclose" do
