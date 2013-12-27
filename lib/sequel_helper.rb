@@ -184,7 +184,9 @@ class SequelHelper
     self.load_data(csv_params)
     puts ">> LOAD DATA "# + table_name_temp + " " + csv_params.to_s
     
-    # create the select statement....
+    # 3. create the select statement in insert select
+    #################################################
+    
     select_str = "t." + table_cols[0]
     table_cols.each_with_index do |table_col, i|
       # skip the first item since you used it already.
@@ -217,7 +219,7 @@ class SequelHelper
       end
     end
     
-    # 3. insert select statement.
+    # 4. insert select statement.
     #############################
     
     insert_params = {:table_name => table_name_orig,

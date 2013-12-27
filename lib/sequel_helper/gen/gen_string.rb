@@ -127,6 +127,57 @@ class GenString
     return nil
   end
   
+  # a low level array to string. using low level in quotes.
+  # i'm trying to keep it flexible.
+  #
+  def self.array_to_str(params = {})
+    # make some of the params optional.
+    params = {
+              open_by: nil,
+              closed_by: nil,
+              prefix: nil,
+              suffix: nil
+             }.merge(params)
+             
+    array_vals = params.fetch(:array_vals)
+    # seperator between array values. need to add spacing yourself.
+    seperator = params.fetch(:seperator)
+    # add a str before each array value
+    prefix = params.fetch(:prefix)
+    # add a str after each array value
+    suffix = params.fetch(:suffix)
+    
+    # can use these if you want something to enclose the list.
+    # like [] or ()...
+    open_by = params.fetch(:open_by)
+    closed_by = params.fetch(:closed_by)
+    
+    # intial checks.
+    if array_vals == nil || seperator == nil
+      return nil
+    end
+    
+    # construct stru.
+    final_str = open_by.to_s + prefix.to_s + array_vals[0] + suffix.to_s
+    
+    # load first param.
+    array_vals.each_with_index do |array_val, i|
+      # skip the first item since you used it already.
+      if i != 0
+        final_str = final_str + seperator.to_s + 
+                    prefix.to_s + array_val + suffix.to_s
+      end
+    end
+    
+    # closing brace if needed.
+    final_str = final_str + closed_by.to_s
+    
+    return final_str
+  end
+  
+  # DEBUG
+  ############################################################################
+  
   # a simple debug statement.
   def self.pp(db_str)
     puts ">> gen_str [" + db_str + "]"
