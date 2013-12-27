@@ -173,7 +173,7 @@ class SequelHelper
     ######################
     
     self.clone_table(table_name_orig, table_name_temp)
-    #puts ">> CLONING TABLE " + table_name_orig + " t " + table_name_temp
+    puts ">> CLONING TABLE " + table_name_orig + " t " + table_name_temp
     
     # 2. load csv into table.
     #########################
@@ -192,14 +192,6 @@ class SequelHelper
                          :prefix => "t."}
     
     select_str = GenString.array_to_str select_str_params
-    
-    #select_str = "t." + table_cols[0]
-    #table_cols.each_with_index do |table_col, i|
-    #  # skip the first item since you used it already.
-    #  if i != 0
-    #    select_str = select_str + ", " + "t." + table_col
-    #  end
-    #end
     
     # need to prefix the key cols with the sql table name.
     # 
@@ -224,14 +216,6 @@ class SequelHelper
     
     where_str = GenString.array_to_str where_str_params
     
-    #where_str = "o." + key_cols[0] + " IS NULL"
-    #key_cols.each_with_index do |key_col, i|
-    #  # skip the first item since you used it already.
-    #  if i != 0
-    #    where_str = where_str + " AND " + "o." + key_col + " IS NULL"
-    #  end
-    #end
-    
     # 4. insert select statement.
     #############################
     
@@ -253,7 +237,8 @@ class SequelHelper
     
     # 4. drop the temp table.
     #########################
-    #@client.drop_table? table_name_temp 
+    @client.drop_table? table_name_temp 
+    puts ">> DROPPING TEMP TABLE"
     
     return true
   end
