@@ -229,13 +229,21 @@ class SequelHelper
     self.insert_select insert_params
     puts ">> INSERT SELECT " + insert_params.to_s
     
+    # 5. update existing rows with the csv values.
+    ##############################################
+    # basically you might want to use this if the csv values return new results.
+    # a good example of this is a stock split.
+    
     # the update... remember that the temp table...
     # is the one that has all of the data..
     # in this case, the temp table is foo, not bar..
     #UPDATE foo f LEFT JOIN bar b ON f.symbol=b.symbol AND f.date=b.date
     #SET b.open=f.open, b.high=f.high, b.low=f.low, b.close=f.close, b.adj_close=f.adj_close, b.volume=f.volume;
     
-    # 4. drop the temp table.
+    
+    
+    
+    # 6. drop the temp table.
     #########################
     @client.drop_table? table_name_temp 
     puts ">> DROPPING TEMP TABLE"

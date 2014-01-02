@@ -105,9 +105,58 @@ class GenString
                               :seperator => ", "})
   end
   
+  # a more generic version of the array to str 
+  # probably wont' do the check it..
+  # me thinks its going to be something like this...
+  # 
+  # still have open close by...
+  # but then you have 
+  # arrray vals 1
+  # prefix 1
+  # suffix 1
+  # seperator 1.
+  # 
+  # you dont' have the last seperator...
+  # 
+  # probably need to fix a few things....
+  # in the other code.
+  # need to remove the params.fetch?
+  # 
+  def self.arrays_to_str(params = {})
+    final_str = ""
+    max_array_vals = 1
+    
+    # checking parmas....
+    # probably dumb initially.. just check array_vals1-n
+    # and figure out how many that items are using.
+    # and go off there.
+    # need to fix later.
+    while true
+      if params.has_key?(("arrayVals" + max_array_vals).to_sym)
+        max_array_vals += 1
+      else
+        # if it can't find a symbol, back up 1 and return it.
+        max_array_vals -= 1
+        break
+      end
+    end
+    
+    puts max_array_vals.to_s + "<<<<<<<<<<<<<<<<<<<<"
+  end
+  
   # a low level array to string. using low level in quotes.
   # i'm trying to keep it flexible.
   #
+  # but takes an array of values and convert it to a string
+  #
+  # so lets say you have this list.
+  # ["foo", "bar", "baz"]
+  # and this prefix.
+  # "f."
+  # and this seperator
+  # ", "
+  # the result would be.
+  # "f.foo, f.bar, f.baz" 
   def self.array_to_str(params = {})
     # make some of the params optional.
     params = {

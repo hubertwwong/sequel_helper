@@ -180,6 +180,45 @@ describe GenString do
         expect(result).to eq("[foo.chu|bar.chu|baz.chu]")
       end
     end
+    
+    describe "arrays_to_str" do
+      it "foo, bar" do
+        params = {:array_vals1 => ["foo", "bar"],
+                  :seperator1 => ", "}
+        result = GenString.arrays_to_str(params)
+        
+        expect(result).to eq("foo, bar")
+      end
+      
+      it "t.foo AND t.bar" do
+        params = {:array_vals1 => ["foo", "bar"],
+                  :seperator1 => " AND ",
+                  :prefix1 => "t."}
+        result = GenString.arrays_to_str(params)
+        
+        expect(result).to eq("t.foo AND t.bar")
+      end
+      
+      it "[foo.chu|bar.chu|baz.chu]" do
+        params = {:array_vals1 => ["foo", "bar", "baz"],
+                  :seperator1 => "|",
+                  :suffix1 => ".chu",
+                  :open_by => "[",
+                  :closed_by => "]"}
+        result = GenString.arrays_to_str(params)
+        
+        expect(result).to eq("[foo.chu|bar.chu|baz.chu]")
+      end
+      
+      it "foo=bar, foo2=bar2" do
+        params = {:array_vals1 => ["foo1", "foo2"],
+                  :seperator1 => ", ",
+                  :array_vals2 => ["bar1", "bar2"]}
+        result = GenString.arrays_to_str(params)
+        
+        expect(result).to eq("foo=bar, foo2=bar2")
+      end
+    end
   end
   
 end

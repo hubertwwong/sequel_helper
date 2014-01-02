@@ -1,17 +1,29 @@
 >> gen_str [INSERT INTO fleet (date, symbol, open, high, low, close, adj_close, volume) SELECT f.date, f.symbol, f.open, f.high, f.low, f.close, f.adj_close, f.volume FROM foo f LEFT JOIN bar b ON f.date=b.date AND f.symbol=b.symbol WHERE b.symbol IS NULL;]
-.***..................***....>> gen_str [INSERT INTO fleet (name, description) SELECT o.name, o.description FROM fleet o LEFT JOIN fleettemp t ON o.name=t.name WHERE o.name IS NULL;]
-....
+.***......................FFFF*******sequel_helper init params
+{:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
+>> CLONING TABLE fleet t fleettemp
+SKIPLINENUM  false
+>> gen_str [LOAD DATA INFILE '/home/user/fleet.csv' INTO TABLE fleettemp LINES TERMINATED BY '
+' (@dummy, name, description);]
+>> LOAD DATA 
+>> gen_str [INSERT INTO fleet (name, description) SELECT t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL;]
+INSERT INTO fleet (name, description) SELECT t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL;
+>> INSERT SELECT {:table_name=>"fleet", :into_flag=>true, :table_cols=>["name", "description"], :select_stmt=>"t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL"}
+>> DROPPING TEMP TABLE
+.**sequel_helper init params
+{:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
+.
 
 Pending:
   GenLoadData create basic
     # Temporarily disabled with xit
-    # ./spec/features/gen/gen_load_data_spec.rb:6
+    # ./spec/features/sequel_helper/gen/gen_load_data_spec.rb:6
   GenLoadData create full
     # Temporarily disabled with xit
-    # ./spec/features/gen/gen_load_data_spec.rb:17
+    # ./spec/features/sequel_helper/gen/gen_load_data_spec.rb:17
   GenLoadData create full v2
     # Temporarily disabled with xit
-    # ./spec/features/gen/gen_load_data_spec.rb:33
+    # ./spec/features/sequel_helper/gen/gen_load_data_spec.rb:33
   SequelHelper LOAD_DATA load_data basic
     # Temporarily disabled with xit
     # ./spec/features/sequel_helper_spec.rb:24
@@ -21,6 +33,65 @@ Pending:
   SequelHelper TABLE drop basic
     # Temporarily disabled with xit
     # ./spec/features/sequel_helper_spec.rb:50
+  SequelHelper SELECT .all test returns an array
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:72
+  SequelHelper SELECT .all test 1st item is a hash
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:79
+  SequelHelper INSERT insert_unique false case
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:101
+  SequelHelper INSERT insert_unique true case
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:108
+  SequelHelper MISC QUERY row_exist? foo should eq false
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:159
+  SequelHelper MISC QUERY row_exist? name2 should eq true
+    # Temporarily disabled with xit
+    # ./spec/features/sequel_helper_spec.rb:164
 
-Finished in 12.97 seconds
-33 examples, 0 failures, 6 pending
+Failures:
+
+  1) GenString array to string arrays_to_str foo, bar
+     Failure/Error: result = GenString.arrays_to_str(params)
+     TypeError:
+       no implicit conversion of Fixnum into String
+     # ./lib/sequel_helper/gen/gen_string.rb:135:in `+'
+     # ./lib/sequel_helper/gen/gen_string.rb:135:in `arrays_to_str'
+     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:188:in `block (4 levels) in <top (required)>'
+
+  2) GenString array to string arrays_to_str t.foo AND t.bar
+     Failure/Error: result = GenString.arrays_to_str(params)
+     TypeError:
+       no implicit conversion of Fixnum into String
+     # ./lib/sequel_helper/gen/gen_string.rb:135:in `+'
+     # ./lib/sequel_helper/gen/gen_string.rb:135:in `arrays_to_str'
+     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:197:in `block (4 levels) in <top (required)>'
+
+  3) GenString array to string arrays_to_str [foo.chu|bar.chu|baz.chu]
+     Failure/Error: result = GenString.arrays_to_str(params)
+     TypeError:
+       no implicit conversion of Fixnum into String
+     # ./lib/sequel_helper/gen/gen_string.rb:135:in `+'
+     # ./lib/sequel_helper/gen/gen_string.rb:135:in `arrays_to_str'
+     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:208:in `block (4 levels) in <top (required)>'
+
+  4) GenString array to string arrays_to_str foo=bar, foo2=bar2
+     Failure/Error: result = GenString.arrays_to_str(params)
+     TypeError:
+       no implicit conversion of Fixnum into String
+     # ./lib/sequel_helper/gen/gen_string.rb:135:in `+'
+     # ./lib/sequel_helper/gen/gen_string.rb:135:in `arrays_to_str'
+     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:217:in `block (4 levels) in <top (required)>'
+
+Finished in 2.37 seconds
+41 examples, 4 failures, 12 pending
+
+Failed examples:
+
+rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:185 # GenString array to string arrays_to_str foo, bar
+rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:193 # GenString array to string arrays_to_str t.foo AND t.bar
+rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:202 # GenString array to string arrays_to_str [foo.chu|bar.chu|baz.chu]
+rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:213 # GenString array to string arrays_to_str foo=bar, foo2=bar2

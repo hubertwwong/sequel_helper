@@ -31,7 +31,7 @@ require 'sequel_helper'
 @import_csv_params = {:csv_params => @csv_params,
                       :table_name => "stock_quotes",
                       :table_cols => @table_cols,
-                      :key_cols => ["symbol", "price_date"]}
+                      :key_cols => @key_cols}
                       
 @csv_params[:filename] = "/home/user/.stock_scraper/csv/stock_quotes/AAPL.csv"
 @csv_params[:set_col_names] = ["symbol='AAPL'"]
