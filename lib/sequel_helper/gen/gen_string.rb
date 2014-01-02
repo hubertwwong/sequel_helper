@@ -123,8 +123,19 @@ class GenString
   # need to remove the params.fetch?
   # 
   def self.arrays_to_str(params = {})
+    params = {
+              open_by: nil,
+              closed_by: nil
+             }.merge(params)
+    
     final_str = ""
     max_array_vals = 1
+    array_vals_str = "array_vals"
+    
+    # can use these if you want something to enclose the list.
+    # like [] or ()...
+    open_by = params.fetch(:open_by)
+    closed_by = params.fetch(:closed_by)
     
     # checking parmas....
     # probably dumb initially.. just check array_vals1-n
@@ -132,7 +143,7 @@ class GenString
     # and go off there.
     # need to fix later.
     while true
-      if params.has_key?(("arrayVals" + max_array_vals).to_sym)
+      if params.has_key?(("array_vals" + max_array_vals.to_s).to_sym)
         max_array_vals += 1
       else
         # if it can't find a symbol, back up 1 and return it.
@@ -141,7 +152,51 @@ class GenString
       end
     end
     
-    puts max_array_vals.to_s + "<<<<<<<<<<<<<<<<<<<<"
+    # construct the string.
+    #######################
+    
+    if max_array_vals == 0
+      return nil
+    elsif max_array_vals == 1
+      # only 1 params.
+      
+      #puts "<<<<<>>>>>"
+      #puts "[[" + params[(array_vals_str + "1").to_sym].to_s + "]]]]]]]]]]"
+      
+      # oppening plus 1st array val
+      final_str = open_by.to_s + params["prefix1".to_sym].to_s + params[(array_vals_str + "1").to_sym][0] + params["suffix1".to_sym].to_s
+      
+      # middle stuff
+      params[(array_vals_str + "1").to_sym].each_with_index do |array_val, i|
+        # skip the first item since you used it already.
+        if i != 0
+          final_str += params["seperator1".to_sym].to_s + params["prefix1".to_sym].to_s + array_val + params["suffix1".to_sym].to_s
+        end
+      end
+      
+      # closing
+      final_str += closed_by.to_s
+    else
+      return nil
+      # multiple array params.
+    end
+    
+    #final_str = open_by.to_s + prefix.to_s + array_vals[0] + suffix.to_s
+    
+    # load first param.
+    #array_vals.each_with_index do |array_val, i|
+      # skip the first item since you used it already.
+      #if i != 0
+        #final_str = final_str + seperator.to_s + 
+        #            prefix.to_s + array_val + suffix.to_s
+      #end
+    #end
+    
+    # closing brace if needed.
+    #final_str = final_str + closed_by.to_s
+    
+    return final_str
+    
   end
   
   # a low level array to string. using low level in quotes.

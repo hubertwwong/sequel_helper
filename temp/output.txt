@@ -1,5 +1,14 @@
+building gem
+  Successfully built RubyGem
+  Name: sequel_helper
+  Version: 0.0.1
+  File: sequel_helper-0.0.1.gem
+Successfully installed sequel_helper-0.0.1
+Parsing documentation for sequel_helper-0.0.1
+Done installing documentation for sequel_helper after 1 seconds
+1 gem installed
 >> gen_str [INSERT INTO fleet (date, symbol, open, high, low, close, adj_close, volume) SELECT f.date, f.symbol, f.open, f.high, f.low, f.close, f.adj_close, f.volume FROM foo f LEFT JOIN bar b ON f.date=b.date AND f.symbol=b.symbol WHERE b.symbol IS NULL;]
-.***......................FFFF*******sequel_helper init params
+.***.........................F*******sequel_helper init params
 {:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
 >> CLONING TABLE fleet t fleettemp
 SKIPLINENUM  false
@@ -54,44 +63,18 @@ Pending:
 
 Failures:
 
-  1) GenString array to string arrays_to_str foo, bar
-     Failure/Error: result = GenString.arrays_to_str(params)
-     TypeError:
-       no implicit conversion of Fixnum into String
-     # ./lib/sequel_helper/gen/gen_string.rb:135:in `+'
-     # ./lib/sequel_helper/gen/gen_string.rb:135:in `arrays_to_str'
-     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:188:in `block (4 levels) in <top (required)>'
+  1) GenString array to string arrays_to_str foo=bar, foo2=bar2
+     Failure/Error: expect(result).to eq("foo=bar, foo2=bar2")
+       
+       expected: "foo=bar, foo2=bar2"
+            got: nil
+       
+       (compared using ==)
+     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:219:in `block (4 levels) in <top (required)>'
 
-  2) GenString array to string arrays_to_str t.foo AND t.bar
-     Failure/Error: result = GenString.arrays_to_str(params)
-     TypeError:
-       no implicit conversion of Fixnum into String
-     # ./lib/sequel_helper/gen/gen_string.rb:135:in `+'
-     # ./lib/sequel_helper/gen/gen_string.rb:135:in `arrays_to_str'
-     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:197:in `block (4 levels) in <top (required)>'
-
-  3) GenString array to string arrays_to_str [foo.chu|bar.chu|baz.chu]
-     Failure/Error: result = GenString.arrays_to_str(params)
-     TypeError:
-       no implicit conversion of Fixnum into String
-     # ./lib/sequel_helper/gen/gen_string.rb:135:in `+'
-     # ./lib/sequel_helper/gen/gen_string.rb:135:in `arrays_to_str'
-     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:208:in `block (4 levels) in <top (required)>'
-
-  4) GenString array to string arrays_to_str foo=bar, foo2=bar2
-     Failure/Error: result = GenString.arrays_to_str(params)
-     TypeError:
-       no implicit conversion of Fixnum into String
-     # ./lib/sequel_helper/gen/gen_string.rb:135:in `+'
-     # ./lib/sequel_helper/gen/gen_string.rb:135:in `arrays_to_str'
-     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:217:in `block (4 levels) in <top (required)>'
-
-Finished in 2.37 seconds
-41 examples, 4 failures, 12 pending
+Finished in 2.12 seconds
+41 examples, 1 failure, 12 pending
 
 Failed examples:
 
-rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:185 # GenString array to string arrays_to_str foo, bar
-rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:193 # GenString array to string arrays_to_str t.foo AND t.bar
-rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:202 # GenString array to string arrays_to_str [foo.chu|bar.chu|baz.chu]
 rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:213 # GenString array to string arrays_to_str foo=bar, foo2=bar2
