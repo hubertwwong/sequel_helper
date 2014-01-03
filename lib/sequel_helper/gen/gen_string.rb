@@ -230,13 +230,13 @@ class GenString
       
       # rest of the params...
       #######################  
-      cur_index = 2
+      cur_index = 1
       # outer loop for terms
       while true
         # term seperator
         final_str += params["seperator".to_sym].to_s
         
-        cur_inner_index = 0
+        cur_inner_index = 1
         while true
           puts "2nd<<<<<<<<<<<<<<<<"
           puts params[(array_vals_str + cur_index.to_s).to_sym].to_s
@@ -246,12 +246,12 @@ class GenString
           # don't add the seperator for first item of the item.
           if cur_inner_index == 0
             final_str += params[("prefix" + cur_index.to_s).to_sym].to_s + 
-                         params[(array_vals_str + cur_index.to_s).to_sym][cur_inner_index].to_s + 
+                         params[(array_vals_str + cur_inner_index.to_s).to_sym][cur_index].to_s + 
                          params[("suffix" + cur_index.to_s).to_sym].to_s
           else
             final_str += params[("seperator" + (cur_index-1).to_s).to_sym].to_s + 
                          params[("prefix" + cur_index.to_s).to_sym].to_s + 
-                         params[(array_vals_str + cur_index.to_s).to_sym][cur_inner_index].to_s + 
+                         params[(array_vals_str + cur_inner_index.to_s).to_sym][cur_index].to_s + 
                          params[("suffix" + cur_index.to_s).to_sym].to_s
           end
           
@@ -260,10 +260,14 @@ class GenString
           puts cur_inner_index.to_s + "+" + max_array_item_vals.to_s 
           
           # check if you are at the end of the array list.
-          if cur_inner_index > max_array_item_vals
+          if cur_inner_index > max_array_vals
             break
           end
         end
+        
+        # not sure of terms...
+        # out looop for terms....
+        # 
         
         # eac term increment.
         cur_index += 1
@@ -273,7 +277,7 @@ class GenString
         # exit condition...
         # checking against array length.
         # just use the first array val. assuming the list are all of the same size.
-        if cur_index >= max_array_vals
+        if cur_index >= max_array_item_vals
           break
         end
       end
