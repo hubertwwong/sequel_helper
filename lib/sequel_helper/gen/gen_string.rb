@@ -239,20 +239,21 @@ class GenString
         cur_inner_index = 1
         while true
           puts "2nd<<<<<<<<<<<<<<<<"
-          puts params[(array_vals_str + cur_index.to_s).to_sym].to_s
-          puts params[(array_vals_str + cur_index.to_s).to_sym][cur_inner_index].to_s
+          puts params[(array_vals_str + cur_inner_index.to_s).to_sym].to_s
+          puts params[(array_vals_str + cur_inner_index.to_s).to_sym][cur_index].to_s
           puts ">>>>>>>>>>>>>>>>"
           
           # don't add the seperator for first item of the item.
-          if cur_inner_index == 0
-            final_str += params[("prefix" + cur_index.to_s).to_sym].to_s + 
+          if cur_inner_index == 1
+            puts "first"
+            final_str += params[("prefix" + cur_inner_index.to_s).to_sym].to_s + 
                          params[(array_vals_str + cur_inner_index.to_s).to_sym][cur_index].to_s + 
-                         params[("suffix" + cur_index.to_s).to_sym].to_s
+                         params[("suffix" + cur_inner_index.to_s).to_sym].to_s
           else
-            final_str += params[("seperator" + (cur_index-1).to_s).to_sym].to_s + 
-                         params[("prefix" + cur_index.to_s).to_sym].to_s + 
+            final_str += params[("seperator" + (cur_inner_index-1).to_s).to_sym].to_s + 
+                         params[("prefix" + cur_inner_index.to_s).to_sym].to_s + 
                          params[(array_vals_str + cur_inner_index.to_s).to_sym][cur_index].to_s + 
-                         params[("suffix" + cur_index.to_s).to_sym].to_s
+                         params[("suffix" + cur_inner_index.to_s).to_sym].to_s
           end
           
           cur_inner_index += 1
@@ -265,8 +266,9 @@ class GenString
           end
         end
         
-        # not sure of terms...
-        # out looop for terms....
+        # cur_index.... index of an array.
+        # cur_inner_index.... index on what what list you are in.
+        # this is the inner loop
         # 
         
         # eac term increment.

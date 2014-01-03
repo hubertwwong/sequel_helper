@@ -217,7 +217,7 @@ describe GenString do
                   :array_vals2 => ["bar1", "bar2", "bar3"]}
         result = GenString.arrays_to_str(params)
         
-        expect(result).to eq("foo1=bar1, foo2=bar2")
+        expect(result).to eq("foo1=bar1, foo2=bar2, foo3=bar3")
       end
     end
   end
