@@ -8,7 +8,35 @@ Parsing documentation for sequel_helper-0.0.1
 Done installing documentation for sequel_helper after 1 seconds
 1 gem installed
 >> gen_str [INSERT INTO fleet (date, symbol, open, high, low, close, adj_close, volume) SELECT f.date, f.symbol, f.open, f.high, f.low, f.close, f.adj_close, f.volume FROM foo f LEFT JOIN bar b ON f.date=b.date AND f.symbol=b.symbol WHERE b.symbol IS NULL;]
-.***.........................F*******sequel_helper init params
+.***......................array length2
+.array length2
+.array length3
+.array length2
+1st<<<<<<<<<<<<<<<<1
+["foo1", "foo2"]
+foo1
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["bar1", "bar2"]
+bar1
+>>>>>>>>>>>>>>>>
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2"]
+bar1
+>>>>>>>>>>>>>>>>
+1+2
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2"]
+bar2
+>>>>>>>>>>>>>>>>
+2+2
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2"]
+
+>>>>>>>>>>>>>>>>
+3+2
+3++2
+F*******sequel_helper init params
 {:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
 >> CLONING TABLE fleet t fleettemp
 SKIPLINENUM  false
@@ -63,18 +91,18 @@ Pending:
 
 Failures:
 
-  1) GenString array to string arrays_to_str foo=bar, foo2=bar2
-     Failure/Error: expect(result).to eq("foo=bar, foo2=bar2")
+  1) GenString array to string arrays_to_str foo1=bar1, foo2=bar2
+     Failure/Error: expect(result).to eq("foo1=bar1, foo2=bar2")
        
-       expected: "foo=bar, foo2=bar2"
-            got: nil
+       expected: "foo1=bar1, foo2=bar2"
+            got: "foo1=bar1, bar1=bar2="
        
        (compared using ==)
-     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:219:in `block (4 levels) in <top (required)>'
+     # ./spec/features/sequel_helper/gen/gen_string_spec.rb:220:in `block (4 levels) in <top (required)>'
 
-Finished in 2.12 seconds
+Finished in 2.24 seconds
 41 examples, 1 failure, 12 pending
 
 Failed examples:
 
-rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:213 # GenString array to string arrays_to_str foo=bar, foo2=bar2
+rspec ./spec/features/sequel_helper/gen/gen_string_spec.rb:213 # GenString array to string arrays_to_str foo1=bar1, foo2=bar2

@@ -210,13 +210,14 @@ describe GenString do
         expect(result).to eq("[foo.chu|bar.chu|baz.chu]")
       end
       
-      it "foo=bar, foo2=bar2" do
+      it "foo1=bar1, foo2=bar2" do
         params = {:array_vals1 => ["foo1", "foo2"],
-                  :seperator1 => ", ",
+                  :seperator1 => "=",
+                  :seperator => ", ",
                   :array_vals2 => ["bar1", "bar2"]}
         result = GenString.arrays_to_str(params)
         
-        expect(result).to eq("foo=bar, foo2=bar2")
+        expect(result).to eq("foo1=bar1, foo2=bar2")
       end
     end
   end

@@ -129,8 +129,13 @@ class GenString
              }.merge(params)
     
     final_str = ""
-    max_array_vals = 1
     array_vals_str = "array_vals"
+    # max number of arrays vals.
+    max_array_vals = 1
+    # number of items of arrays in per array. using first one.
+    max_array_item_vals = params[(array_vals_str + "1").to_sym].length
+    
+    puts "array length" + max_array_item_vals.to_s
     
     # can use these if you want something to enclose the list.
     # like [] or ()...
@@ -160,43 +165,125 @@ class GenString
     elsif max_array_vals == 1
       # only 1 params.
       
-      #puts "<<<<<>>>>>"
-      #puts "[[" + params[(array_vals_str + "1").to_sym].to_s + "]]]]]]]]]]"
-      
       # oppening plus 1st array val
-      final_str = open_by.to_s + params["prefix1".to_sym].to_s + params[(array_vals_str + "1").to_sym][0] + params["suffix1".to_sym].to_s
+      final_str = open_by.to_s + 
+                  params["prefix1".to_sym].to_s + 
+                  params[(array_vals_str + "1").to_sym][0] + 
+                  params["suffix1".to_sym].to_s
       
       # middle stuff
       params[(array_vals_str + "1").to_sym].each_with_index do |array_val, i|
         # skip the first item since you used it already.
         if i != 0
-          final_str += params["seperator1".to_sym].to_s + params["prefix1".to_sym].to_s + array_val + params["suffix1".to_sym].to_s
+          final_str += params["seperator1".to_sym].to_s + 
+                       params["prefix1".to_sym].to_s + 
+                       array_val + 
+                       params["suffix1".to_sym].to_s
         end
       end
       
       # closing
       final_str += closed_by.to_s
     else
-      return nil
       # multiple array params.
+      
+      # open param
+      final_str = open_by.to_s
+      
+      # note about seperators naming and using them.
+      # if you have 2 list.
+      # use seperator 1 and not seperator 2.
+      # this will keep thinks consistent when you only have 1 list items.
+      # use "seperator" to seperate after all terms.
+      
+      # first set of params...
+      ########################
+      cur_index = 1
+      while true
+        puts "1st<<<<<<<<<<<<<<<<" + cur_index.to_s
+        puts params[(array_vals_str + cur_index.to_s).to_sym].to_s
+        puts params[(array_vals_str + cur_index.to_s).to_sym][0].to_s
+        puts ">>>>>>>>>>>>>>>>"
+        
+        # don't add the seperator for first item
+        if cur_index == 1
+          final_str += params[("prefix" + cur_index.to_s).to_sym].to_s + 
+                       params[(array_vals_str + cur_index.to_s).to_sym][0].to_s + 
+                       params[("suffix" + cur_index.to_s).to_sym].to_s
+        else
+          final_str += params[("seperator" + (cur_index-1).to_s).to_sym].to_s + 
+                       params[("prefix" + cur_index.to_s).to_sym].to_s + 
+                       params[(array_vals_str + cur_index.to_s).to_sym][0].to_s +
+                       params[("suffix" + cur_index.to_s).to_sym].to_s
+        end
+        # need a check for the last set of condtions.
+        
+        cur_index += 1
+        
+        # exit condition...
+        # checking against array length.
+        # just use the first array val. assuming the list are all of the same size.
+        if cur_index > max_array_vals
+          break
+        end
+      end
+      
+      # rest of the params...
+      #######################  
+      cur_index = 2
+      # outer loop for terms
+      while true
+        # term seperator
+        final_str += params["seperator".to_sym].to_s
+        
+        cur_inner_index = 0
+        while true
+          puts "2nd<<<<<<<<<<<<<<<<"
+          puts params[(array_vals_str + cur_index.to_s).to_sym].to_s
+          puts params[(array_vals_str + cur_index.to_s).to_sym][cur_inner_index].to_s
+          puts ">>>>>>>>>>>>>>>>"
+          
+          # don't add the seperator for first item of the item.
+          if cur_inner_index == 0
+            final_str += params[("prefix" + cur_index.to_s).to_sym].to_s + 
+                         params[(array_vals_str + cur_index.to_s).to_sym][cur_inner_index].to_s + 
+                         params[("suffix" + cur_index.to_s).to_sym].to_s
+          else
+            final_str += params[("seperator" + (cur_index-1).to_s).to_sym].to_s + 
+                         params[("prefix" + cur_index.to_s).to_sym].to_s + 
+                         params[(array_vals_str + cur_index.to_s).to_sym][cur_inner_index].to_s + 
+                         params[("suffix" + cur_index.to_s).to_sym].to_s
+          end
+          
+          cur_inner_index += 1
+          
+          puts cur_inner_index.to_s + "+" + max_array_item_vals.to_s 
+          
+          # check if you are at the end of the array list.
+          if cur_inner_index > max_array_item_vals
+            break
+          end
+        end
+        
+        # eac term increment.
+        cur_index += 1
+        
+        puts cur_index.to_s + "++" + max_array_vals.to_s 
+        
+        # exit condition...
+        # checking against array length.
+        # just use the first array val. assuming the list are all of the same size.
+        if cur_index >= max_array_vals
+          break
+        end
+      end
+      
+      # closing
+      final_str += closed_by.to_s
     end
     
-    #final_str = open_by.to_s + prefix.to_s + array_vals[0] + suffix.to_s
-    
-    # load first param.
-    #array_vals.each_with_index do |array_val, i|
-      # skip the first item since you used it already.
-      #if i != 0
-        #final_str = final_str + seperator.to_s + 
-        #            prefix.to_s + array_val + suffix.to_s
-      #end
-    #end
-    
-    # closing brace if needed.
-    #final_str = final_str + closed_by.to_s
-    
-    return final_str
-    
+    # return the string.
+    return final_str    
   end
   
   # a low level array to string. using low level in quotes.
