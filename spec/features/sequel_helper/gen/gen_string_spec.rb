@@ -219,6 +219,20 @@ describe GenString do
         
         expect(result).to eq("foo1=bar1, foo2=bar2, foo3=bar3")
       end
+      
+      it "zzfoo1aa=bbbar1yy, zzfoo2aa=bbbar2yy, zzfoo3aa=bbbar3yy" do
+        params = {:array_vals1 => ["foo1", "foo2", "foo3"],
+                  :prefix1 => "zz",
+                  :suffix1 => "aa",
+                  :seperator1 => "=",
+                  :seperator => ", ",
+                  :array_vals2 => ["bar1", "bar2", "bar3"],
+                  :prefix2 => "bb",
+                  :suffix2 => "yy"}
+        result = GenString.arrays_to_str(params)
+        
+        expect(result).to eq("zzfoo1aa=bbbar1yy, zzfoo2aa=bbbar2yy, zzfoo3aa=bbbar3yy")
+      end
     end
   end
   

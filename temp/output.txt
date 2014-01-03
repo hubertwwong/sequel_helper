@@ -44,6 +44,39 @@ bar3
 >>>>>>>>>>>>>>>>
 3+3
 3++2
+.array length3
+1st<<<<<<<<<<<<<<<<1
+["foo1", "foo2", "foo3"]
+foo1
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["bar1", "bar2", "bar3"]
+bar1
+>>>>>>>>>>>>>>>>
+2nd<<<<<<<<<<<<<<<<
+["foo1", "foo2", "foo3"]
+foo2
+>>>>>>>>>>>>>>>>
+first
+2+3
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2", "bar3"]
+bar2
+>>>>>>>>>>>>>>>>
+3+3
+2++2
+2nd<<<<<<<<<<<<<<<<
+["foo1", "foo2", "foo3"]
+foo3
+>>>>>>>>>>>>>>>>
+first
+2+3
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2", "bar3"]
+bar3
+>>>>>>>>>>>>>>>>
+3+3
+3++2
 .*******sequel_helper init params
 {:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
 >> CLONING TABLE fleet t fleettemp
@@ -97,5 +130,5 @@ Pending:
     # Temporarily disabled with xit
     # ./spec/features/sequel_helper_spec.rb:164
 
-Finished in 2.25 seconds
-41 examples, 0 failures, 12 pending
+Finished in 2.8 seconds
+42 examples, 0 failures, 12 pending
