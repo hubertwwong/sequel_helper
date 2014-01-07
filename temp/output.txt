@@ -139,7 +139,7 @@ Failures:
        +UPDATE space_ship SET bar;
      # ./spec/features/sequel_helper/gen/gen_update_spec.rb:12:in `block (3 levels) in <top (required)>'
 
-Finished in 7 seconds
+Finished in 7.74 seconds
 43 examples, 1 failure, 12 pending
 
 Failed examples:

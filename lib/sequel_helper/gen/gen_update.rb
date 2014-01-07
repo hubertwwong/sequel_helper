@@ -65,17 +65,9 @@ class GenUpdate
     db_str += " SET " + set_ref
     
     # optional condition...
-    if where_ref != nil
-      db_str += " WHERE " + where_ref
-    end
-    
-    if order_ref != nil
-      db_str += " ORDER " + order_ref
-    end
-    
-    if limit_ref != nil
-      db_str += " LIMIT " + limit_ref
-    end
+    db_str = GenString.append_not_nil(db_str, " WHERE " + where_ref.to_s, where_ref)
+    db_str = GenString.append_not_nil(db_str, " ORDER " + order_ref.to_s, order_ref)
+    db_str = GenString.append_not_nil(db_str, " LIMIT " + limit_ref.to_s, limit_ref)
     
     # add the semi colon
     db_str += ";"
