@@ -5,25 +5,25 @@ describe GenString do
   describe "conditional" do
     describe "append_not_nil" do
       it "nil nil" do
-        result = GenString.append_not_nil(nil, nil)
+        result = GenString.append_not_nil(nil, nil, nil)
         
         expect(result).to eq(nil)
       end
       
       it "nil str" do
-        result = GenString.append_not_nil(nil, "foo")
+        result = GenString.append_not_nil(nil, "foo", "foo")
         
         expect(result).to eq(nil)
       end
       
       it "str nil" do
-        result = GenString.append_not_nil("foo", nil)
+        result = GenString.append_not_nil("foo", nil, nil)
         
         expect(result).to eq("foo")
       end
       
       it "str str" do
-        result = GenString.append_not_nil("foo", "foo")
+        result = GenString.append_not_nil("foo", "foo", "foo")
         
         expect(result).to eq("foofoo")
       end

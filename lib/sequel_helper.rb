@@ -109,6 +109,19 @@ class SequelHelper
   
   
   
+  # UPDATE METHODS
+  ############################################################################
+  
+  #
+  # UPDATE foo f LEFT JOIN bar b ON f.symbol=b.symbol AND f.date=b.date
+  # SET b.open=f.open, b.high=f.high, b.low=f.low, b.close=f.close, b.adj_close=f.adj_close, b.volume=f.volume;  
+  #
+  def update
+    
+  end
+  
+  
+  
   # QUERY methods
   ############################################################################
   

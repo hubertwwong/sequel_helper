@@ -1,6 +1,5 @@
 require_relative "gen_string"
 
-
 # ACTUALLY.. YOU MIGHT NOT NEED IT>
 # Insert statements.
 #
@@ -45,7 +44,7 @@ class GenInsert
     bool_params = [[low_priority_flag, " LOW_PRIORITY"],
                    [high_priority_flag, " HIGH_PRIORITY"]]
     bool_result = GenString.bool_first(bool_params)
-    db_str = GenString.append_not_nil(db_str, bool_result)
+    db_str = GenString.append_not_nil(db_str, bool_result, bool_result)
     
     db_str = GenString.append_if_true(db_str, " IGNORE", ignore_flag)
     

@@ -2,7 +2,8 @@ require "pathname"
 
 require_relative "gen_string"
 
-# a string generating class so you can load into db.
+# a string generating class.
+# used to generate some mysql commands.
 class GenLoadData
   
   attr_accessor :low_priority_flag, :concurrent_flag, :local_flag,
@@ -84,36 +85,36 @@ class GenLoadData
     # low priority, concurrent, local
     bool_params = [[low_priority_flag, " LOW_PRIORITY"], [concurrent_flag, " CONCURRENT"]]
     result_str = GenString.bool_first(bool_params)
-    db_str = GenString.append_not_nil(db_str, result_str)
+    db_str = GenString.append_not_nil(db_str, result_str, result_str)
     
     # file name
-    db_str = db_str + " INFILE '" + filename + "'"
+    db_str += " INFILE '" + filename + "'"
     
     # replace / ignore
     bool_params = [[replace_flag, " REPLACE"], [ignore_flag], " IGNORE"]
     result_str = GenString.bool_first(bool_params)
-    db_str = GenString.append_not_nil(db_str, result_str)
+    db_str = GenString.append_not_nil(db_str, result_str, result_str)
     
     # into table         
-    db_str = db_str + " INTO TABLE " + table_name
+    db_str += " INTO TABLE " + table_name
     
     # checks if the optional args fields are used.
     # if its is, add " FIELDS"
     if fields_term_by != nil || fields_enclosed_by != nil || fields_escaped_by != nil
-      db_str = db_str + " FIELDS"
+      db_str += " FIELDS"
       
       if fields_term_by != nil
-        db_str = db_str + " TERMINATED BY '" + 
+        db_str += " TERMINATED BY '" + 
                  fields_term_by + "'"
       end
       
       if fields_enclosed_by != nil
-        db_str = db_str + " ENCLOSED BY '" + 
+        db_str += " ENCLOSED BY '" + 
                  fields_enclosed_by + "'"
       end
       
       if fields_escaped_by != nil
-        db_str = db_str + " ESCAPED BY '" + 
+        db_str += " ESCAPED BY '" + 
                  fields_escaped_by + "'"
       end  
     end
@@ -121,15 +122,15 @@ class GenLoadData
     # check if lines start by or end by is used
     # if it is, add " LINES"
     if line_start_by != nil || line_term_by != nil
-      db_str = db_str + " LINES"
+      db_str += " LINES"
       
       if line_start_by != nil
-        db_str = db_str + " STARTING BY '" + 
+        db_str += " STARTING BY '" + 
                  line_start_by + "'"
       end
       
       if line_term_by != nil
-        db_str = db_str + " TERMINATED BY '" + 
+        db_str += " TERMINATED BY '" + 
                  line_term_by + "'"
       end
     end
@@ -137,7 +138,7 @@ class GenLoadData
     # if you have titles, add a number to skip those lines
     # so they don't get put into the db.
     if skip_num_lines != nil && skip_num_lines.to_i > 0
-      db_str = db_str + " IGNORE " + skip_num_lines.to_s + " LINES"
+      db_str += " IGNORE " + skip_num_lines.to_s + " LINES"
     end
     puts "SKIPLINENUM " + skip_num_lines.to_s + " " + (skip_num_lines != nil && skip_num_lines.to_i > 0).to_s
     
@@ -147,7 +148,7 @@ class GenLoadData
     # 
     # example:
     #   ["@dummy", "foo", "bar"]
-    db_str = db_str + " " + GenString.paren_array_to_comma_str(col_names)
+    db_str += " " + GenString.paren_array_to_comma_str(col_names)
     
     # set col names
     # 
@@ -160,7 +161,7 @@ class GenLoadData
     end
     
     # add the semi colon
-    db_str = db_str + ";"
+    db_str += ";"
     
     # debug stuff
     GenString.pp db_str
