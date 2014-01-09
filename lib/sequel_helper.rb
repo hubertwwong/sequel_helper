@@ -233,7 +233,7 @@ class SequelHelper
                 :array_vals2 => key_cols,
                 :prefix2 => "t."}
     on_str = GenString.arrays_to_str on_param
-    puts ">>><<><><><><>" + on_str
+    # puts ">>><<><><><><>" + on_str
     
     # creating the where statement...
     # using the keys cols...
