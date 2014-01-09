@@ -218,13 +218,22 @@ class SequelHelper
     # 
     # looks like this.
     # f.date=b.date AND f.symbol=b.symbol
-    on_str = "o." + key_cols[0] + "=t." + key_cols[0]
-    key_cols.each_with_index do |key_col, i|
+    #on_str = "o." + key_cols[0] + "=t." + key_cols[0]
+    #key_cols.each_with_index do |key_col, i|
       # skip the first item since you used it already.
-      if i != 0
-        on_str = on_str + " AND " + "o." + key_col + "=t." + key_col
-      end
-    end
+    #  if i != 0
+    #    on_str = on_str + " AND " + "o." + key_col + "=t." + key_col
+    #  end
+    #end
+    
+    on_param = {:seperator => " AND ",
+                :array_vals1 => key_cols,
+                :prefix1 => "o.",
+                :seperator1 => "=",
+                :array_vals2 => key_cols,
+                :prefix2 => "t."}
+    on_str = GenString.arrays_to_str on_param
+    puts ">>><<><><><><>" + on_str
     
     # creating the where statement...
     # using the keys cols...
@@ -290,8 +299,8 @@ class SequelHelper
     
     # 6. drop the temp table.
     #########################
-    @client.drop_table? table_name_temp 
-    puts ">> DROPPING TEMP TABLE"
+    #@client.drop_table? table_name_temp 
+    #puts ">> DROPPING TEMP TABLE"
     
     return true
   end
