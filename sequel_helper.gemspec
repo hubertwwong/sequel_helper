@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
                     "lib/sequel_helper.rb", 
                     "lib/sequel_helper/gen/gen_insert.rb",
                     "lib/sequel_helper/gen/gen_load_data.rb",
+                    "lib/sequel_helper/gen/gen_update.rb",
                     "lib/sequel_helper/gen/gen_string.rb"
                   ]
   s.homepage    = "http://www.localhost.com"

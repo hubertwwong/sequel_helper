@@ -1,147 +1,140 @@
->> gen_str [INSERT INTO fleet (date, symbol, open, high, low, close, adj_close, volume) SELECT f.date, f.symbol, f.open, f.high, f.low, f.close, f.adj_close, f.volume FROM foo f LEFT JOIN bar b ON f.date=b.date AND f.symbol=b.symbol WHERE b.symbol IS NULL;]
-.***......................array length2
-.array length2
-.array length3
-.array length3
-1st<<<<<<<<<<<<<<<<1
-["foo1", "foo2", "foo3"]
-foo1
->>>>>>>>>>>>>>>>
-1st<<<<<<<<<<<<<<<<2
-["bar1", "bar2", "bar3"]
-bar1
->>>>>>>>>>>>>>>>
-2nd<<<<<<<<<<<<<<<<
-["foo1", "foo2", "foo3"]
-foo2
->>>>>>>>>>>>>>>>
-first
-2+3
-2nd<<<<<<<<<<<<<<<<
-["bar1", "bar2", "bar3"]
-bar2
->>>>>>>>>>>>>>>>
-3+3
-2++2
-2nd<<<<<<<<<<<<<<<<
-["foo1", "foo2", "foo3"]
-foo3
->>>>>>>>>>>>>>>>
-first
-2+3
-2nd<<<<<<<<<<<<<<<<
-["bar1", "bar2", "bar3"]
-bar3
->>>>>>>>>>>>>>>>
-3+3
-3++2
-.array length3
-1st<<<<<<<<<<<<<<<<1
-["foo1", "foo2", "foo3"]
-foo1
->>>>>>>>>>>>>>>>
-1st<<<<<<<<<<<<<<<<2
-["bar1", "bar2", "bar3"]
-bar1
->>>>>>>>>>>>>>>>
-2nd<<<<<<<<<<<<<<<<
-["foo1", "foo2", "foo3"]
-foo2
->>>>>>>>>>>>>>>>
-first
-2+3
-2nd<<<<<<<<<<<<<<<<
-["bar1", "bar2", "bar3"]
-bar2
->>>>>>>>>>>>>>>>
-3+3
-2++2
-2nd<<<<<<<<<<<<<<<<
-["foo1", "foo2", "foo3"]
-foo3
->>>>>>>>>>>>>>>>
-first
-2+3
-2nd<<<<<<<<<<<<<<<<
-["bar1", "bar2", "bar3"]
-bar3
->>>>>>>>>>>>>>>>
-3+3
-3++2
-.>> gen_str [UPDATE space_ship SET bar;]
-F*******sequel_helper init params
-{:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
->> CLONING TABLE fleet t fleettemp
-SKIPLINENUM  false
->> gen_str [LOAD DATA INFILE '/home/user/fleet.csv' INTO TABLE fleettemp LINES TERMINATED BY '
-' (@dummy, name, description);]
+building gem
+  Successfully built RubyGem
+  Name: sequel_helper
+  Version: 0.0.1
+  File: sequel_helper-0.0.1.gem
+Successfully installed sequel_helper-0.0.1
+Parsing documentation for sequel_helper-0.0.1
+Done installing documentation for sequel_helper after 2 seconds
+1 gem installed
+{:csv_params=>{:filename=>"/home/user/.stock_scraper/csv/stock_quotes/AAPL.csv", :line_term_by=>"\n", :fields_term_by=>",", :skip_num_lines=>1, :local_flag=>true, :col_names=>["price_date", "open", "high", "low", "close", "volume", "adj_close"], :set_col_names=>["symbol='AAPL'"]}, :table_name=>"stock_quotes", :table_cols=>["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"], :key_cols=>["price_date", "symbol"]}
+sequel_helper init params
+{:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"stock4_development"}
+>> IMPORT CSV PARAMS
+csvp {:filename=>"/home/user/.stock_scraper/csv/stock_quotes/AAPL.csv", :line_term_by=>"\n", :fields_term_by=>",", :skip_num_lines=>1, :local_flag=>true, :col_names=>["price_date", "open", "high", "low", "close", "volume", "adj_close"], :set_col_names=>["symbol='AAPL'"]}
+table_cols ["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+key_cols ["price_date", "symbol"]
+>> CLONING TABLE stock_quotes t stock_quotestemp
+SKIPLINENUM 1 true
+>> gen_str [LOAD DATA INFILE '/home/user/.stock_scraper/csv/stock_quotes/AAPL.csv' INTO TABLE stock_quotestemp FIELDS TERMINATED BY ',' LINES TERMINATED BY '
+' IGNORE 1 LINES (price_date, open, high, low, close, volume, adj_close) SET symbol='AAPL';]
 >> LOAD DATA 
->> gen_str [INSERT INTO fleet (name, description) SELECT t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL;]
-INSERT INTO fleet (name, description) SELECT t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL;
->> INSERT SELECT {:table_name=>"fleet", :into_flag=>true, :table_cols=>["name", "description"], :select_stmt=>"t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL"}
+>> gen_str [INSERT INTO stock_quotes (price_date, open, high, low, close, volume, adj_close, symbol) SELECT t.price_date, t.open, t.high, t.low, t.close, t.volume, t.adj_close, t.symbol FROM stock_quotestemp t LEFT JOIN stock_quotes o ON o.price_date=t.price_date AND o.symbol=t.symbol WHERE o.price_date IS NULL AND o.symbol IS NULL;]
+INSERT INTO stock_quotes (price_date, open, high, low, close, volume, adj_close, symbol) SELECT t.price_date, t.open, t.high, t.low, t.close, t.volume, t.adj_close, t.symbol FROM stock_quotestemp t LEFT JOIN stock_quotes o ON o.price_date=t.price_date AND o.symbol=t.symbol WHERE o.price_date IS NULL AND o.symbol IS NULL;
+>> INSERT SELECT {:table_name=>"stock_quotes", :into_flag=>true, :table_cols=>["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"], :select_stmt=>"t.price_date, t.open, t.high, t.low, t.close, t.volume, t.adj_close, t.symbol FROM stock_quotestemp t LEFT JOIN stock_quotes o ON o.price_date=t.price_date AND o.symbol=t.symbol WHERE o.price_date IS NULL AND o.symbol IS NULL"}
+array length8
+1st<<<<<<<<<<<<<<<<1
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+price_date
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+price_date
+>>>>>>>>>>>>>>>>
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+open
+>>>>>>>>>>>>>>>>
+first
+2+8
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+open
+>>>>>>>>>>>>>>>>
+3+8
+2++2
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+high
+>>>>>>>>>>>>>>>>
+first
+2+8
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+high
+>>>>>>>>>>>>>>>>
+3+8
+3++2
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+low
+>>>>>>>>>>>>>>>>
+first
+2+8
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+low
+>>>>>>>>>>>>>>>>
+3+8
+4++2
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+close
+>>>>>>>>>>>>>>>>
+first
+2+8
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+close
+>>>>>>>>>>>>>>>>
+3+8
+5++2
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+volume
+>>>>>>>>>>>>>>>>
+first
+2+8
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+volume
+>>>>>>>>>>>>>>>>
+3+8
+6++2
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+adj_close
+>>>>>>>>>>>>>>>>
+first
+2+8
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+adj_close
+>>>>>>>>>>>>>>>>
+3+8
+7++2
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+symbol
+>>>>>>>>>>>>>>>>
+first
+2+8
+2nd<<<<<<<<<<<<<<<<
+["price_date", "open", "high", "low", "close", "volume", "adj_close", "symbol"]
+symbol
+>>>>>>>>>>>>>>>>
+3+8
+8++2
+array length2
+1st<<<<<<<<<<<<<<<<1
+["price_date", "symbol"]
+price_date
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["price_date", "symbol"]
+price_date
+>>>>>>>>>>>>>>>>
+2nd<<<<<<<<<<<<<<<<
+["price_date", "symbol"]
+symbol
+>>>>>>>>>>>>>>>>
+first
+2+2
+2nd<<<<<<<<<<<<<<<<
+["price_date", "symbol"]
+symbol
+>>>>>>>>>>>>>>>>
+3+2
+2++2
+>> gen_str [UPDATE stock_quotestemp t LEFT JOIN stock_quotes o ON t.price_date=o.price_date AND t.symbol=o.symbol SET t.price_date=o.price_date, t.open=o.open, t.high=o.high, t.low=o.low, t.close=o.close, t.volume=o.volume, t.adj_close=o.adj_close, t.symbol=o.symbol;]
 >> DROPPING TEMP TABLE
-.**sequel_helper init params
-{:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
-.
-
-Pending:
-  GenLoadData create basic
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper/gen/gen_load_data_spec.rb:6
-  GenLoadData create full
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper/gen/gen_load_data_spec.rb:17
-  GenLoadData create full v2
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper/gen/gen_load_data_spec.rb:33
-  SequelHelper LOAD_DATA load_data basic
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:24
-  SequelHelper TABLE clone_table basic
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:43
-  SequelHelper TABLE drop basic
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:50
-  SequelHelper SELECT .all test returns an array
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:72
-  SequelHelper SELECT .all test 1st item is a hash
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:79
-  SequelHelper INSERT insert_unique false case
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:101
-  SequelHelper INSERT insert_unique true case
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:108
-  SequelHelper MISC QUERY row_exist? foo should eq false
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:159
-  SequelHelper MISC QUERY row_exist? name2 should eq true
-    # Temporarily disabled with xit
-    # ./spec/features/sequel_helper_spec.rb:164
-
-Failures:
-
-  1) GenUpdate update basic
-     Failure/Error: expect(result).to eq(final_str)
-       
-       expected: "LOAD DATA INFILE '/home/user/fleet.csv' INTO TABLE space_ship LINES TERMINATED BY '\r\n' (@dummy, name, description);"
-            got: "UPDATE space_ship SET bar;"
-       
-       (compared using ==)
-       
-       Diff:
-       @@ -1,3 +1,2 @@
-       -LOAD DATA INFILE '/home/user/fleet.csv' INTO TABLE space_ship LINES TERMINATED BY '
-       -' (@dummy, name, description);
-       +UPDATE space_ship SET bar;
-     # ./spec/features/sequel_helper/gen/gen_update_spec.rb:12:in `block (3 levels) in <top (required)>'
-
-Finished in 7.74 seconds
-43 examples, 1 failure, 12 pending
-
-Failed examples:
-
-rspec ./spec/features/sequel_helper/gen/gen_update_spec.rb:6 # GenUpdate update basic

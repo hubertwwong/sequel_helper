@@ -3,6 +3,7 @@ require "logger"
 
 require_relative "sequel_helper/gen/gen_load_data"
 require_relative "sequel_helper/gen/gen_insert"
+require_relative "sequel_helper/gen/gen_update"
 
 class SequelHelper
   
@@ -112,12 +113,11 @@ class SequelHelper
   # UPDATE METHODS
   ############################################################################
   
-  #
-  # UPDATE foo f LEFT JOIN bar b ON f.symbol=b.symbol AND f.date=b.date
-  # SET b.open=f.open, b.high=f.high, b.low=f.low, b.close=f.close, b.adj_close=f.adj_close, b.volume=f.volume;  
-  #
-  def update
-    
+  # just a pass thru function on string gen for update.
+  def update(params = {})
+    db_str = GenUpdate.update params
+    @client.run db_str
+    return true
   end
   
   
@@ -176,6 +176,14 @@ class SequelHelper
     # to another.
     table_name_orig_s = table_name_orig + " o"
     table_name_temp_s = table_name_orig + "temp t"
+    
+    
+    # -1 debugging
+    ##############
+    puts ">> IMPORT CSV PARAMS"
+    puts "csvp " + csv_params.to_s
+    puts "table_cols " + table_cols.to_s
+    puts "key_cols " + key_cols.to_s
     
     # 0. drop temp table if exist.
     ##############################
@@ -252,9 +260,33 @@ class SequelHelper
     # in this case, the temp table is foo, not bar..
     #UPDATE foo f LEFT JOIN bar b ON f.symbol=b.symbol AND f.date=b.date
     #SET b.open=f.open, b.high=f.high, b.low=f.low, b.close=f.close, b.adj_close=f.adj_close, b.volume=f.volume;
+    set_params = {:seperator => ", ",
+                  :array_vals1 => table_cols,
+                  :prefix1 => "o.",
+                  :seperator1 => "=",
+                  :array_vals2 => table_cols,
+                  :prefix2 => "t."}
+    set_str = GenString.arrays_to_str set_params
     
+    on_params = {:seperator => " AND ",
+                 :array_vals1 => key_cols,
+                 :prefix1 => "t.",
+                 :seperator1 => "=",
+                 :array_vals2 => key_cols,
+                 :prefix2 => "o."}
+    on_str = GenString.arrays_to_str on_params
     
+    update_table_ref = table_name_temp_s + " LEFT JOIN " + 
+                       table_name_orig_s + " ON " +
+                       on_str
+
+    update_params = {:table_ref => update_table_ref,
+                     :set_ref => set_str}
+    self.update update_params
     
+    #puts ">>>>>MMMMM"
+    #puts table_cols.to_s
+    #puts set_str
     
     # 6. drop the temp table.
     #########################

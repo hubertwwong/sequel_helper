@@ -3,7 +3,7 @@ require_relative "../../../../lib/sequel_helper/gen/gen_load_data"
 describe GenLoadData do
   
   describe "create" do
-    xit "basic" do
+    it "basic" do
       params = {:filename => "/home/user/fleet.csv",
                 :table_name => "space_ship",
                 :line_term_by => "\r\n",
@@ -14,7 +14,7 @@ describe GenLoadData do
       expect(result).to eq(final_str)
     end
     
-    xit "full" do
+    it "full" do
       params = {:filename => "/home/user/fleet.csv",
                 :concurrent_flag => true,
                 :replace_flag => true,
@@ -30,7 +30,7 @@ describe GenLoadData do
       expect(result).to eq(final_str)
     end
     
-    xit "full v2" do
+    it "full v2" do
       params = {:filename => "/home/user/fleet.csv",
                 :concurrent_flag => true,
                 :replace_flag => true,

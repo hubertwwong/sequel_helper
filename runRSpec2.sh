@@ -7,4 +7,3 @@ gem install $gemName
 mv $gemName bin
 
 bundle exec rspec
-
