@@ -166,7 +166,7 @@ class GenString
     if max_array_vals == 0
       return nil
     elsif max_array_vals == 1
-      # only 1 params.
+      # only 1 params list.
       
       # oppening plus 1st array val
       final_str = open_by.to_s + 
@@ -235,7 +235,10 @@ class GenString
       #######################  
       cur_index = 1
       # outer loop for terms
-      while true
+      # added a check for the number of items in each array.
+      # just checks to see that it isn't 1.
+      # other wise use the exit condition at the bottom of the loop.
+      while max_array_item_vals != 1
         # term seperator
         final_str += params["seperator".to_sym].to_s
         

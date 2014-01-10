@@ -182,6 +182,16 @@ describe GenString do
     end
     
     describe "arrays_to_str" do
+      it "foo=bar" do
+        params = {:seperator => ", ",
+                  :array_vals1 => ["foo"],
+                  :seperator1 => "=",
+                  :array_vals2 => ["bar"]}
+        result = GenString.arrays_to_str(params)
+        
+        expect(result).to eq("foo=bar")
+      end
+      
       it "foo, bar" do
         params = {:array_vals1 => ["foo", "bar"],
                   :seperator1 => ", "}
