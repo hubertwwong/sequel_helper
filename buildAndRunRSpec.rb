@@ -35,7 +35,14 @@ system "gem install " + gem_name_ver
 puts "moving gem to bin directory"
 system "mv " + gem_name_ver + " bin"
 
+# running rspec
+puts "running rspec"
+system "bundle exec rspec"
+
 puts "complete"
+
+
+
 
 # misc notes
 #

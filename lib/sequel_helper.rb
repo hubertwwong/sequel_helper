@@ -180,7 +180,7 @@ class SequelHelper
 
     # -1 debugging
     ##############
-    puts ">> IMPORT CSV PARAMS"
+    puts ">> IMPORT CSV PARAMS " + Time.now.to_s
     puts "csvp " + csv_params.to_s
     puts "table_cols " + table_cols.to_s
     puts "key_cols " + key_cols.to_s
@@ -194,7 +194,7 @@ class SequelHelper
     ######################
 
     self.clone_table(table_name_orig, table_name_temp)
-    puts ">> CLONING TABLE " + table_name_orig + " t " + table_name_temp
+    puts ">> CLONING TABLE " + table_name_orig + " t " + table_name_temp + " " + Time.now.to_s
 
     # 2. load csv into table.
     #########################
@@ -203,7 +203,7 @@ class SequelHelper
     # not the original one.
     csv_params[:table_name] = table_name_temp
     self.load_data(csv_params)
-    puts ">> LOAD DATA "# + table_name_temp + " " + csv_params.to_s
+    puts ">> LOAD DATA "# + table_name_temp + " " + csv_params.to_s + " " + Time.now.to_s
 
     # 3. create the select statement in insert select
     #################################################
@@ -257,7 +257,7 @@ class SequelHelper
                         " ON " + on_str +
                         " WHERE "+ where_str}
     self.insert_select insert_params
-    puts ">> INSERT SELECT " + insert_params.to_s
+    puts ">> INSERT SELECT " + insert_params.to_s + " " + Time.now.to_s
 
     # 5. update existing rows with the csv values.
     ##############################################
@@ -292,6 +292,7 @@ class SequelHelper
     update_params = {:table_ref => update_table_ref,
                      :set_ref => set_str}
     self.update update_params
+    puts ">> UPDATE EXISTING " + Time.now.to_s
 
     #puts ">>>>>MMMMM"
     #puts table_cols.to_s
@@ -299,8 +300,8 @@ class SequelHelper
 
     # 6. drop the temp table.
     #########################
-    #@client.drop_table? table_name_temp
-    #puts ">> DROPPING TEMP TABLE"
+    @client.drop_table? table_name_temp
+    puts ">> DROPPING TEMP TABLE " + Time.now.to_s
 
     return true
   end
