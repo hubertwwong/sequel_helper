@@ -1,0 +1,10 @@
+---
+db_adapter: mysql2
+db_user: root
+db_password: password
+db_url: localhost
+db_name_prod: sequel_helper_prod
+db_name_dev: sequel_helper_dev
+db_name_test: sequel_helper_test
+db_adapter: mysql2
+db_table_name_fleet: fleet

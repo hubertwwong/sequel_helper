@@ -31,7 +31,7 @@ namespace :run do
     ms.client.loggers << Logger.new($stdout)
 
     # testing out the use of client...
-    puts "select all"
+    puts ">> fleet. select all"
     ms.client[:fleet].all
 
     puts "> import_csv >>>>>>>>>>>"      
@@ -106,7 +106,7 @@ namespace :db do
     puts ycl.db_prefs['db_user']  
       
     # build the command to run.
-    cmd = "sequel -m src/db/migrations/ %s://%s:%s@%s/%s" % 
+    cmd = "sequel -m lib/sequel_helpe/db/migrations/ %s://%s:%s@%s/%s" % 
       [
         ycl.db_prefs['db_adapter'],
         ycl.db_prefs['db_user'], 
