@@ -13,9 +13,10 @@ task :default => ['test:main']
 namespace :run do
 
   # builds the gem and just figures out if it works in a really quick manner.
+  # BROKEN....
   task :gem_smoke_test do
     require 'sequel_helper'
-  
+
     db_cred = {:adapter => "mysql2",
                 :host => "localhost",
                 :database => "space_ship",
@@ -34,7 +35,7 @@ namespace :run do
     puts ">> fleet. select all"
     ms.client[:fleet].all
 
-    puts "> import_csv >>>>>>>>>>>"      
+    puts "> import_csv >>>>>>>>>>>"
     csv_params = {:filename => "/home/user/fleet.csv",
                   :line_term_by => "\r\n",
                   :col_names => ["@dummy", "name", "description"]}
@@ -52,6 +53,14 @@ end
 
 
 namespace :build do
+
+  task :gem do
+    gem_spec_name = "sequel_helper.gemspec"
+
+    puts "building gem"
+    system "gem build " + gem_spec_name
+  end
+
 end
 
 
@@ -61,15 +70,15 @@ end
 # put in a env variable to control what db its hits.
 namespace :test do
 
-  
-    
+
+
   task :main do
     # set the env variable.
     # for now, its just a db switch statement.
     # for the name of the db to access.
     ENV['STOCK_SCRAPER_ENV'] = "test"
     puts ENV['STOCK_SCRAPER_ENV']
-    
+
     # runs rspec. need to fix this at some point to use the db.
     system "bundle exec rspec"
     #puts "done"
@@ -81,16 +90,16 @@ end
 #
 # seems like its doind a redux..
 namespace :db do
-    
+
   task :migrate do
     # read the file.
-    ycl = YAMLConfigLoader.new  
-      
+    ycl = YAMLConfigLoader.new
+
     # fix this at some point.
     # fix what??
     ENV['STOCK_SCRAPER_ENV'] = "test"
     #puts ENV['STOCK_SCRAPER_ENV']
-    
+
     # env variable.
     db_name = nil
     if ENV['STOCK_SCRAPER_ENV'] == "prod"
@@ -98,23 +107,23 @@ namespace :db do
     elsif ENV['STOCK_SCRAPER_ENV'] == "dev"
       db_name = ycl.db_prefs['db_name_dev']
     else # assume test
-      db_name = ycl.db_prefs['db_name_test']    
+      db_name = ycl.db_prefs['db_name_test']
     end
-      
+
     # build the command...
-    puts "> db:migrate > " + ENV['STOCK_SCRAPER_ENV'] 
-    puts ycl.db_prefs['db_user']  
-      
+    puts "> db:migrate > " + ENV['STOCK_SCRAPER_ENV']
+    puts ycl.db_prefs['db_user']
+
     # build the command to run.
-    cmd = "sequel -m lib/sequel_helpe/db/migrations/ %s://%s:%s@%s/%s" % 
+    cmd = "sequel -m lib/sequel_helpe/db/migrations/ %s://%s:%s@%s/%s" %
       [
         ycl.db_prefs['db_adapter'],
-        ycl.db_prefs['db_user'], 
-        ycl.db_prefs['db_password'], 
-        ycl.db_prefs['db_url'], 
+        ycl.db_prefs['db_user'],
+        ycl.db_prefs['db_password'],
+        ycl.db_prefs['db_url'],
         db_name
       ]
-      
+
     # runs migration. need to fix this at some point to use the db.
     puts cmd
     system cmd
