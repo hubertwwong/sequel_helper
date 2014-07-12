@@ -13,7 +13,7 @@ task :default => ['test:main']
 namespace :run do
 
   # builds the gem and just figures out if it works in a really quick manner.
-  task :gem_smoke do
+  task :gem_smoke_test do
     require 'sequel_helper'
   
     db_cred = {:adapter => "mysql2",

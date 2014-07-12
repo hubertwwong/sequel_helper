@@ -5,6 +5,8 @@ require_relative "sequel_helper/gen/gen_load_data"
 require_relative "sequel_helper/gen/gen_insert"
 require_relative "sequel_helper/gen/gen_update"
 
+require "sequel_helper/version"
+
 class SequelHelper
 
   attr_accessor :adapter, :host, :client, :user, :password, :database
