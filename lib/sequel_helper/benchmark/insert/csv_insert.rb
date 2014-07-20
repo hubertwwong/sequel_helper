@@ -1,5 +1,3 @@
-require 'sequel_helper'
-
 # some simple test to see what performance is like on some basic mysql tweaks
 class CSVInsert
 

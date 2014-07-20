@@ -1,7 +1,6 @@
 #require 'rspec/core/rake_task'
 # used to load yml files for the project
-#require_relative 'src/main/yaml_config_loader'
-
+require_relative 'lib/sequel_helper/main/yaml_config_loader'
 
 # change this for default task when you run bundle exec rake
 task :default => ['test:main']
@@ -55,10 +54,18 @@ end
 namespace :build do
 
   task :gem do
+    gem_name = "sequel_helper"
     gem_spec_name = "sequel_helper.gemspec"
+    gem_name_ver = "sequel_helper-0.0.11.gem"
 
+    puts "uninstalling gem."
+    system "gem uninstall " + gem_name  
+      
     puts "building gem"
     system "gem build " + gem_spec_name
+
+    puts "installing gem"
+    system "gem install  " + gem_name
   end
 
 end
@@ -115,7 +122,7 @@ namespace :db do
     puts ycl.db_prefs['db_user']
 
     # build the command to run.
-    cmd = "sequel -m lib/sequel_helpe/db/migrations/ %s://%s:%s@%s/%s" %
+    cmd = "sequel -m lib/sequel_helper/db/migration %s://%s:%s@%s/%s" %
       [
         ycl.db_prefs['db_adapter'],
         ycl.db_prefs['db_user'],

@@ -18,7 +18,6 @@ GEM
       rspec-support (~> 3.0.0)
     rspec-support (3.0.2)
     sequel (4.12.0)
-    sequel_helper (0.0.8)
 
 PLATFORMS
   ruby
@@ -29,4 +28,3 @@ DEPENDENCIES
   rake
   rspec
   sequel
-  sequel_helper

@@ -7,4 +7,4 @@ gem 'logger'
 gem 'rake'
 
 # this gem.
-gem 'sequel_helper'
+# gem 'sequel_helper'

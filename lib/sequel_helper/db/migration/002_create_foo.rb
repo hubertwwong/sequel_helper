@@ -1,14 +1,14 @@
 Sequel.migration do
   up do
-    create_table(:fleet) do
+    create_table(:foo) do
       primary_key :id
       String :name
       String :name2
-      String :description
+      String :descriptino
     end
   end
 
   down do
-    drop_table(:fleet)
+    drop_table(:foo)
   end
 end

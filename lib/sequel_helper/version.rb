@@ -1,3 +1,8 @@
+require_relative 'main/yaml_config_loader'
+
 module SequelHelper
-  VERSION = "0.0.9"
+  # read version.
+  
+    
+  VERSION = "0.0.10"
 end

@@ -4,8 +4,8 @@ require "logger"
 require_relative "sequel_helper/gen/gen_load_data"
 require_relative "sequel_helper/gen/gen_insert"
 require_relative "sequel_helper/gen/gen_update"
-
-require "sequel_helper/version"
+#require_relative "sequel_helper/version"
+# this seems broken when i include this....
 
 class SequelHelper
 
@@ -38,7 +38,6 @@ class SequelHelper
     # connect to db.
     self.connect
   end
-
 
 
 

@@ -4,21 +4,17 @@ require_relative '../util/yaml_util'
 #
 class YAMLConfigLoader
 
-  attr_accessor :browser_prefs, :db_prefs, :dir_prefs, :sec_prefs, :scraper_prefs
+  attr_accessor :db_prefs, :dir_prefs, :gem_prefs
 
   def initialize
-    @browser_filename = 'config/browser.yml'
     @db_filename = 'config/database.yml'
     @dir_filename = 'config/dir_names.yml'
-    @sec_filename = 'config/sec_urls.yml'
-    @scraper_filename = 'config/yahoo_progress.yml'
+    @gem_filename = 'config/gem.yml'
 
     # load the yaml file.
-    @browser_prefs = YamlUtil.read(@browser_filename)
     @db_prefs = YamlUtil.read(@db_filename)
     @dir_prefs = YamlUtil.read(@dir_filename)
-    @sec_prefs = YamlUtil.read(@sec_filename)
-    @scraper_prefs = YamlUtil.read(@scraper_filename)
+    @gem_prefs = YamlUtil.read(@gem_filename)
   end
 
 end
