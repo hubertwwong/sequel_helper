@@ -19,11 +19,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
 
-  spec.files         = `git ls-files`.split($/)
+  # this is broken... should not rely on git. but was on bundler.io
+  #spec.files         = `git ls-files`.split($/)
+  # http://stackoverflow.com/questions/11873294/determining-the-gems-list-of-files-for-the-specification
+  spec.files         = Dir['**/*'].keep_if { |file| File.file?(file) }
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
-
 
 # spec.files       = [
 #                    "lib/sequel_helper.rb",

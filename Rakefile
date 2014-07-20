@@ -54,18 +54,24 @@ end
 namespace :build do
 
   task :gem do
+    # read the file.
+    ycl = YAMLConfigLoader.new
+    
     gem_name = "sequel_helper"
     gem_spec_name = "sequel_helper.gemspec"
-    gem_name_ver = "sequel_helper-0.0.11.gem"
-
-    puts "uninstalling gem."
+    gem_name_ver = "sequel_helper-" + ycl.gem_prefs["version"] + ".gem"
+      
+    puts "> uninstalling gem"
     system "gem uninstall " + gem_name  
       
-    puts "building gem"
+    puts "> building gem"
     system "gem build " + gem_spec_name
 
-    puts "installing gem"
+    puts "> installing gem"
     system "gem install  " + gem_name
+      
+    puts "> moving gem into bin dir. might need it at some point."
+    system "mv " + gem_name_ver + " bin/"
   end
 
 end
@@ -76,8 +82,6 @@ end
 #
 # put in a env variable to control what db its hits.
 namespace :test do
-
-
 
   task :main do
     # set the env variable.
