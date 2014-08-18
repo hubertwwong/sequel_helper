@@ -6,7 +6,7 @@ describe YAMLConfigLoader do
     it "basic" do
       ycl = YAMLConfigLoader.new
         
-      expect(ycl.gem_prefs["version"]).to eq("0.0.10")
+      expect(ycl.gem_prefs["version"]).to eq("0.0.12")
     end
   end
   

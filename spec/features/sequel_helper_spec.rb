@@ -127,7 +127,7 @@ describe SequelHelper do
       @db_table_name = "fleet"
     end
     
-    it "basic" do
+    it "basic1" do
       sq = SequelHelper.new @db_cred
       csv_params = {:filename => "/home/user/fleet.csv",
                     :line_term_by => "\r\n",
@@ -165,23 +165,6 @@ describe SequelHelper do
         sq = SequelHelper.new @db_cred
         expect(sq.row_exist?("fleet", :name => "name2")).to eq(true)
       end
-    end
-  end
-
-  describe "hello" do
-    before(:each) do
-      @db_cred = {
-        :adapter => "mysql2",
-        :host => "localhost",
-        :database => "space_ship",
-        :user => "root",
-        :password => "password"
-      }
-    end
-    
-    it "should return hello" do
-      ms = SequelHelper.new @db_cred
-      expect(ms.hello).to eq('hello')
     end
   end
   

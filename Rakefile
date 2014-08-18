@@ -70,8 +70,8 @@ namespace :build do
     puts "> installing gem"
     system "gem install  " + gem_name
       
-    puts "> moving gem into bin dir. might need it at some point."
-    system "mv " + gem_name_ver + " bin/"
+    puts "> deleting gem."
+    system "rm " + gem_name_ver
   end
 
 end

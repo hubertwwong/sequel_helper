@@ -1,10 +1,14 @@
 source 'http://rubygems.org'
 
-gem 'rspec'
+group :development do
+  gem 'guard-rspec'
+  gem 'logger'
+  gem 'rake'
+  gem 'rspec'
+end
+
+
 gem 'sequel'
 gem 'mysql2'
-gem 'logger'
-gem 'rake'
-
 # this gem.
 # gem 'sequel_helper'

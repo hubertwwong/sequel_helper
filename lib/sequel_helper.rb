@@ -104,11 +104,6 @@ class SequelHelper
   # SELECT methods
   ############################################################################
 
-  #def select(params = {})
-  #  puts "KAHAN..................."
-  #  return "pie"
-  #end
-
 
 
   # UPDATE METHODS
@@ -312,24 +307,6 @@ class SequelHelper
   # MISC METHODS
   ############################################################################
 
-  # MIGHT NOT BE NEEDED...
-  # convert sequel results to an array of hashes.
-  # in sequel, results are in its own data struct.
-  # if you call all rows, it returns as an array of hashes.
-  # if you do a where call, you can call this on the results
-  # so it will return it as an array of hashes.
-  #def to_array_of_hashes(sequel_results)
-  #  if sequel_results == nil
-  #    return nil
-  #  else
-  #    result = Array.new
-  #    sequel_results.each do |item|
-  #      result.push(item)
-  #    end
-  #    return result
-  #  end
-  #end
-
 
 
   # DB Connections
@@ -349,14 +326,6 @@ class SequelHelper
   # is not fast enough.
   def close
     @client.close
-  end
-
-  # TEMP
-  ############################################################################
-
-  # used to test if the class is setup correcty.
-  def hello
-    "hello"
   end
 
 end

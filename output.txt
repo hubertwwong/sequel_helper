@@ -1,0 +1,218 @@
+test
+******>> gen_str [INSERT INTO fleet (date, symbol, open, high, low, close, adj_close, volume) SELECT f.date, f.symbol, f.open, f.high, f.low, f.close, f.adj_close, f.volume FROM foo f LEFT JOIN bar b ON f.date=b.date AND f.symbol=b.symbol WHERE b.symbol IS NULL;]
+.SKIPLINENUM  false
+>> gen_str [LOAD DATA INFILE '/home/user/fleet.csv' INTO TABLE space_ship LINES TERMINATED BY '
+' (@dummy, name, description);]
+.SKIPLINENUM 1 true
+>> gen_str [LOAD DATA CONCURRENT INFILE '/home/user/fleet.csv' REPLACE INTO TABLE space_ship FIELDS TERMINATED BY '	' ENCLOSED BY '"' LINES TERMINATED BY '
+' IGNORE 1 LINES (@dummy, name, description);]
+.SKIPLINENUM 1 true
+>> gen_str [LOAD DATA CONCURRENT INFILE '/home/user/fleet.csv' REPLACE INTO TABLE space_ship FIELDS TERMINATED BY '	' ENCLOSED BY '"' LINES TERMINATED BY '
+' IGNORE 1 LINES (@dummy, name, description) SET column2='dummy';]
+.......................array length1
+1st<<<<<<<<<<<<<<<<1
+["foo"]
+foo
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["bar"]
+bar
+>>>>>>>>>>>>>>>>
+.array length2
+.array length2
+.array length3
+.array length3
+1st<<<<<<<<<<<<<<<<1
+["foo1", "foo2", "foo3"]
+foo1
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["bar1", "bar2", "bar3"]
+bar1
+>>>>>>>>>>>>>>>>
+2nd<<<<<<<<<<<<<<<<
+["foo1", "foo2", "foo3"]
+foo2
+>>>>>>>>>>>>>>>>
+first
+2+3
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2", "bar3"]
+bar2
+>>>>>>>>>>>>>>>>
+3+3
+2++2
+2nd<<<<<<<<<<<<<<<<
+["foo1", "foo2", "foo3"]
+foo3
+>>>>>>>>>>>>>>>>
+first
+2+3
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2", "bar3"]
+bar3
+>>>>>>>>>>>>>>>>
+3+3
+3++2
+.array length3
+1st<<<<<<<<<<<<<<<<1
+["foo1", "foo2", "foo3"]
+foo1
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["bar1", "bar2", "bar3"]
+bar1
+>>>>>>>>>>>>>>>>
+2nd<<<<<<<<<<<<<<<<
+["foo1", "foo2", "foo3"]
+foo2
+>>>>>>>>>>>>>>>>
+first
+2+3
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2", "bar3"]
+bar2
+>>>>>>>>>>>>>>>>
+3+3
+2++2
+2nd<<<<<<<<<<<<<<<<
+["foo1", "foo2", "foo3"]
+foo3
+>>>>>>>>>>>>>>>>
+first
+2+3
+2nd<<<<<<<<<<<<<<<<
+["bar1", "bar2", "bar3"]
+bar3
+>>>>>>>>>>>>>>>>
+3+3
+3++2
+.>> gen_str [UPDATE space_ship SET bar;]
+.array length3
+>> gen_str [UPDATE space_ship SET [foo.chu|bar.chu|baz.chu];]
+.sequel_helper init params
+{:adapter=>"mysql2", :host=>"http://127.0.0.1/", :client=>nil, :user=>"root", :password=>"password", :database=>"sequel_helper_test"}
+F*.*******sequel_helper init params
+{:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
+>> IMPORT CSV PARAMS 2014-08-10 16:41:36 -0700
+csvp {:filename=>"/home/user/fleet.csv", :line_term_by=>"\r\n", :col_names=>["@dummy", "name", "description"]}
+table_cols ["name", "description"]
+key_cols ["name"]
+>> CLONING TABLE fleet t fleettemp 2014-08-10 16:41:36 -0700
+SKIPLINENUM  false
+>> gen_str [LOAD DATA INFILE '/home/user/fleet.csv' INTO TABLE fleettemp LINES TERMINATED BY '
+' (@dummy, name, description);]
+>> LOAD DATA 
+array length1
+1st<<<<<<<<<<<<<<<<1
+["name"]
+name
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["name"]
+name
+>>>>>>>>>>>>>>>>
+>> gen_str [INSERT INTO fleet (name, description) SELECT t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL;]
+INSERT INTO fleet (name, description) SELECT t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL;
+>> INSERT SELECT {:table_name=>"fleet", :into_flag=>true, :table_cols=>["name", "description"], :select_stmt=>"t.name, t.description FROM fleettemp t LEFT JOIN fleet o ON o.name=t.name WHERE o.name IS NULL"} 2014-08-10 16:41:39 -0700
+array length2
+1st<<<<<<<<<<<<<<<<1
+["name", "description"]
+name
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["name", "description"]
+name
+>>>>>>>>>>>>>>>>
+2nd<<<<<<<<<<<<<<<<
+["name", "description"]
+description
+>>>>>>>>>>>>>>>>
+first
+2+2
+2nd<<<<<<<<<<<<<<<<
+["name", "description"]
+description
+>>>>>>>>>>>>>>>>
+3+2
+2++2
+array length1
+1st<<<<<<<<<<<<<<<<1
+["name"]
+name
+>>>>>>>>>>>>>>>>
+1st<<<<<<<<<<<<<<<<2
+["name"]
+name
+>>>>>>>>>>>>>>>>
+>> gen_str [UPDATE fleettemp t LEFT JOIN fleet o ON t.name=o.name SET o.name=t.name, o.description=t.description;]
+>> UPDATE EXISTING 2014-08-10 16:41:42 -0700
+>> DROPPING TEMP TABLE 2014-08-10 16:41:42 -0700
+.**sequel_helper init params
+{:adapter=>"mysql2", :host=>"localhost", :client=>nil, :user=>"root", :password=>"password", :database=>"space_ship"}
+.
+
+Pending:
+  CSVInsert setup db setup
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper/benchmark/insert/csv_insert_spec.rb:20
+  NaiveInsert naive1 naive1
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper/benchmark/insert/naive_insert_spec.rb:20
+  NaiveInsert naive1 naive2
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper/benchmark/insert/naive_insert_spec.rb:34
+  NaiveInsert naive1 naive3
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper/benchmark/insert/naive_insert_spec.rb:48
+  NaiveInsert naive1 naive4
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper/benchmark/insert/naive_insert_spec.rb:62
+  NaiveInsert naive1 naive5
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper/benchmark/insert/naive_insert_spec.rb:76
+  ClientHelper test hello
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper/main/client_helper_spec.rb:24
+  SequelHelper LOAD_DATA load_data basic
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:24
+  SequelHelper TABLE clone_table basic
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:43
+  SequelHelper TABLE drop basic
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:50
+  SequelHelper SELECT .all test returns an array
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:72
+  SequelHelper SELECT .all test 1st item is a hash
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:79
+  SequelHelper INSERT insert_unique false case
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:101
+  SequelHelper INSERT insert_unique true case
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:108
+  SequelHelper MISC QUERY row_exist? foo should eq false
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:159
+  SequelHelper MISC QUERY row_exist? name2 should eq true
+    # Temporarily skipped with xit
+    # ./spec/features/sequel_helper_spec.rb:164
+
+Failures:
+
+  1) ClientHelper main connect
+     Failure/Error: expect(result.test_connection).to be == nil
+     Sequel::DatabaseConnectionError:
+       Mysql2::Error: Unknown MySQL server host 'http://127.0.0.1/' (2)
+     # ./spec/features/sequel_helper/main/client_helper_spec.rb:19:in `block (3 levels) in <top (required)>'
+
+Finished in 6.51 seconds (files took 1.58 seconds to load)
+54 examples, 1 failure, 16 pending
+
+Failed examples:
+
+rspec ./spec/features/sequel_helper/main/client_helper_spec.rb:16 # ClientHelper main connect
