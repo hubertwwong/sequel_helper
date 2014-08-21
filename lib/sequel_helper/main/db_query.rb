@@ -1,13 +1,16 @@
 require "sequel"
 
+require_relative "client_helper"
+
 class DBQuery
 
   attr_accessor :client
-  
+
   # takes a client helper.
-  def initialize(client)
-    @client = client
-  end    
+  def initialize(db_params)
+    cl = ClientHelper.new(db_params)
+    @client = cl
+  end
 
   # checks if a row with a given constraint exist.
   def row_exist?(table_name, where_param)
@@ -23,5 +26,5 @@ class DBQuery
       return true
     end
   end
-    
+
 end

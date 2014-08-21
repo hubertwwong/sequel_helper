@@ -1,7 +1,8 @@
 require_relative "../../../../lib/sequel_helper/main/db_query"
+#require_relative "../../../../lib/sequel_helper/main/client_helper"
 
 describe DBQuery do
-    
+
   describe "main" do
     let(:db_param) {
         {
@@ -12,21 +13,21 @@ describe DBQuery do
           password: "password"
         }
       }
-    
-    xit "connect" do
+
+    it "connect" do
       c = DBQuery.new(db_param)
-      result = c.connect
-      expect(result.test_connection).to be == true
+      result = c.client.connect
+      expect(c.client.test_connection).to be == true
     end
-      
-    xit "connect and disconnect" do
+
+    it "connect and disconnect" do
       c = DBQuery.new(db_param)
-      result = c.connect
-      expect(result.test_connection).to be == true
-      
-      result = c.disconnect
-      expect(result.test_connection).to be == false
+      result = c.client.connect
+      expect(c.client.test_connection).to be == true
+
+      result = c.client.disconnect
+      expect(c.client.test_connection).to be == false
     end
   end
-  
+
 end
