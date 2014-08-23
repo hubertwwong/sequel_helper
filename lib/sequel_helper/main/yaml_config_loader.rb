@@ -19,6 +19,9 @@ class YAMLConfigLoader
     @env_prefs = YamlUtil.read(@env_filename)
   end
 
+  # use this to pass params to sequel connect.
+  # pulls from the envs variables.
+  # should be used internally by gem and not externally.
   def db_con_params
     db_name = nil
 

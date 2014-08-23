@@ -1,6 +1,6 @@
 require "sequel"
 
-require_relative "client_helper"
+require_relative "sequel_factory"
 
 class DBQuery
 
@@ -8,8 +8,8 @@ class DBQuery
 
   # takes a client helper.
   def initialize(db_params)
-    cl = ClientHelper.new(db_params)
-    @client = cl
+    sf = SequelFactory.new(db_params)
+    @client = sf.connect
   end
 
   # checks if a row with a given constraint exist.

@@ -4,7 +4,7 @@ require_relative "../../../../lib/sequel_helper/main/db_query"
 describe DBQuery do
 
   describe "main" do
-    let(:db_param) {
+    let(:db_params) {
         {
           adapter: "mysql2",
           host: "localhost",
@@ -15,18 +15,18 @@ describe DBQuery do
       }
 
     it "connect" do
-      c = DBQuery.new(db_param)
-      result = c.client.connect
-      expect(c.client.test_connection).to be == true
+      dbq = DBQuery.new(db_params)
+      expect(dbq.client.test_connection).to be == true
     end
 
     it "connect and disconnect" do
-      c = DBQuery.new(db_param)
-      result = c.client.connect
-      expect(c.client.test_connection).to be == true
+      dbq = DBQuery.new(db_params)
+      expect(dbq.client.test_connection).to be == true
 
-      result = c.client.disconnect
-      expect(c.client.test_connection).to be == false
+      result = dbq.client.disconnect
+      #result = c.client.disconnect
+      sleep 5
+      expect(dbq.client.test_connection).to be == false
     end
   end
 
