@@ -1,16 +1,9 @@
-require "sequel"
-
-require_relative "sequel_factory"
 require_relative "../gen/gen_insert"
 
-class DBInsert
+class DBInsert < DBBase
 
-  attr_accessor :client
-
-  # connect to the db.
   def initialize(db_params)
-    sf = SequelFactory.new(db_params)
-    @client = sf.connect
+    super(db_params)
   end
 
   # inserts based of another table.
