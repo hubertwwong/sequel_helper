@@ -27,7 +27,7 @@ describe SequelFactory do
         expect(result.test_connection).to be == true
       end
 
-      it "connect and disconnect" do
+      xit "connect and disconnect" do
         c = SequelFactory.connect_test_db
         expect(c.test_connection).to be == true
 

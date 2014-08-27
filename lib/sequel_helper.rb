@@ -4,8 +4,7 @@ require "logger"
 require_relative "sequel_helper/gen/gen_load_data"
 require_relative "sequel_helper/gen/gen_insert"
 require_relative "sequel_helper/gen/gen_update"
-#require_relative "sequel_helper/version"
-# this seems broken when i include this....
+#require_relative "../../sequel_factory"
 
 class SequelHelper
 
@@ -80,14 +79,6 @@ class SequelHelper
       return false
     end
   end
-
-  # WORKING ON IT...
-  # broken...
-  #def insert_select_not_found(table_name)
-  #  insert_stmt = "date, symbol, open, high, low, close, adj_close, volume"
-  #  select_stmt = ""
-  #  @client[:fleet].insert(insert_stmt).select(select_stmt).sql
-  #end
 
   # insert select statement.
   # allows you to insert based off a table view.

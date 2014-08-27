@@ -31,13 +31,13 @@
   #watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/acceptance' }
 #end
 
-guard :rspec do
+guard :rspec, cmd: "bundle exec rspec --color --format doc" do
   # watch /lib/ files
   watch(%r{^lib/(.+).rb$}) do |m|
     "spec/#{m[1]}_spec.rb"
   end
- 
-# watch /spec/ files
+
+  # watch /spec/ files
   watch(%r{^spec/(.+).rb$}) do |m|
     "spec/#{m[1]}.rb"
   end

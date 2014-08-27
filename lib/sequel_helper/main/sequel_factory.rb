@@ -62,6 +62,11 @@ class SequelFactory
                              :password => @password)
   end
 
+  # NOTE. YOU DONT NEED THIS...
+  # yaml_config_loader has a db_params
+  # you should use that.
+  # pass in the rspec to the actual objects.
+  #
   # want this for internally test suite use.
   # just a connection to the internal test db.
   # only use this in the spec directory.
