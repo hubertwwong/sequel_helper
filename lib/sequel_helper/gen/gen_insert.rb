@@ -1,4 +1,5 @@
 require_relative "gen_string"
+require_relative "../util/log_factory"
 
 # ACTUALLY.. YOU MIGHT NOT NEED IT>
 # Insert statements.
@@ -14,6 +15,8 @@ class GenInsert
   #  ON f.date=b.date AND f.symbol=b.symbol
   #  WHERE b.symbol IS NULL;
   def self.insert_select(params={})
+    log = LogFactory.build
+
     # make some of the params optional.
     params = {
               low_priority_flag: false,
@@ -54,7 +57,8 @@ class GenInsert
     db_str = db_str + " SELECT " + select_stmt + ";"
 
     # debug
-    GenString.pp db_str
+    #GenString.pp db_str
+    log.debug db_str
 
     return db_str
   end

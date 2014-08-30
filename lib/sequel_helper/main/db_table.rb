@@ -1,7 +1,10 @@
+require_relative "../util/log_factory"
+
 class DBTable < DBBase
 
   def initialize(db_params)
     super(db_params)
+    @log = LogFactory.build
   end
 
   # clones a table.

@@ -1,3 +1,5 @@
+require_relative "../../../../lib/sequel_helper/util/logging"
+
 describe "logging2" do
   include Logging
 

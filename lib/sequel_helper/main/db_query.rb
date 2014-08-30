@@ -1,7 +1,10 @@
+require_relative "../util/log_factory"
+
 class DBQuery < DBBase
 
   def initialize(db_params)
     super(db_params)
+    @log = LogFactory.build
   end
 
   # checks if a row with a given constraint exist.

@@ -1,11 +1,11 @@
 require_relative "../gen/gen_insert"
+require_relative "../util/log_factory"
 
 class DBInsert < DBBase
 
-  #include Logging
-
   def initialize(db_params)
     super(db_params)
+    @log = LogFactory.build
   end
 
   # inserts based of another table.
@@ -14,8 +14,6 @@ class DBInsert < DBBase
     db_str = GenInsert.insert_select(params)
     puts db_str
     @client.run db_str
-
-    #logger.debug "hello"
 
     return true
   end
