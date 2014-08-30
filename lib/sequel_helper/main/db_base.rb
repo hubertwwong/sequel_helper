@@ -1,7 +1,7 @@
 require "sequel"
 
 require_relative "sequel_factory"
-require_relative "../log_factory"
+require_relative "../util/log_factory"
 
 # a simple base class that will contain a simple init and a sequel instance var.
 # DRY things up.

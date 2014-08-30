@@ -51,14 +51,14 @@ describe DBInsert do
     end
 
     describe "connect" do
-      it "basic" do
+      xit "basic" do
         dbq = DBInsert.new(db_params)
         expect(dbq.client.test_connection).to be == true
       end
     end
 
     describe "insert_select" do
-      it "basic" do
+      xit "basic" do
         table_name = @orig_table
         table_cols = [@col_name1]
         select_stmt = "o.name" +
