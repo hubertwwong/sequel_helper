@@ -12,7 +12,7 @@ class DBInsert < DBBase
   # useful when copying rows between tables.
   def insert_select(params = {})
     db_str = GenInsert.insert_select(params)
-    puts db_str
+    @log.debug db_str
     @client.run db_str
 
     return true
