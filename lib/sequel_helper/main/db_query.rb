@@ -1,3 +1,4 @@
+require_relative "db_base"
 require_relative "../util/log_factory"
 
 class DBQuery < DBBase
@@ -22,6 +23,7 @@ class DBQuery < DBBase
     end
   end
 
+  # return number of rows...
   def rows(table_name)
     result = @client.from(table_name).all
     return result.length

@@ -1,3 +1,4 @@
+require_relative "db_base"
 require_relative "../util/log_factory"
 
 class DBTable < DBBase

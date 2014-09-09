@@ -1,8 +1,13 @@
 require_relative "../../../../lib/sequel_helper/main/db_insert"
-require_relative "../../../../lib/sequel_helper/main/yaml_config_loader"
 require_relative "../../../../lib/sequel_helper/util/log_factory"
+require_relative "../../../../lib/sequel_helper/main/yaml_config_loader"
 
 describe DBInsert do
+
+  let(:db_params) {
+      ycl = YAMLConfigLoader.new
+      ycl.db_con_params
+    }
 
   before(:all) do
     @log = LogFactory.build
