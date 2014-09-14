@@ -1,4 +1,5 @@
-#require 'rspec/core/rake_task'
+require 'rspec/core/rake_task'
+
 # used to load yml files for the project
 require_relative 'lib/sequel_helper/main/yaml_config_loader'
 
@@ -8,6 +9,11 @@ task :default => ['test:main']
 # change this for task when you run run bundle exec rake all
 # broken
 #task :all => ['temp:foo']
+
+# RSPEC OPTIONS 
+RSpec::Core::RakeTask.new do |task|
+  task.rspec_opts = ['--color', '--format', 'doc']
+end
 
 namespace :run do
 
@@ -56,20 +62,20 @@ namespace :build do
   task :gem do
     # read the file.
     ycl = YAMLConfigLoader.new
-    
+
     gem_name = "sequel_helper"
     gem_spec_name = "sequel_helper.gemspec"
     gem_name_ver = "sequel_helper-" + ycl.gem_prefs["version"] + ".gem"
-      
+
     puts "> uninstalling gem"
-    system "gem uninstall " + gem_name  
-      
+    system "gem uninstall " + gem_name
+
     puts "> building gem"
     system "gem build " + gem_spec_name
 
     puts "> installing gem"
     system "gem install  " + gem_name
-      
+
     puts "> deleting gem."
     system "rm " + gem_name_ver
   end

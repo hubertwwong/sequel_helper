@@ -55,11 +55,11 @@ class SequelFactory
   # connects to db.
   # and return a sequel object that is connected to the db.
   def connect
-    return @client = Sequel.connect(:adapter => @adapter,
-                             :host => @host,
-                             :database => @database,
-                             :user => @user,
-                             :password => @password)
+    return @client = Sequel.connect(adapter: @adapter,
+                                    host: @host,
+                                    database: @database,
+                                    user: @user,
+                                    password: @password)
   end
 
   # NOTE. YOU DONT NEED THIS...

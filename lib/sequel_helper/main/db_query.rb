@@ -25,8 +25,8 @@ class DBQuery < DBBase
 
   # return number of rows...
   def rows(table_name)
-    result = @client.from(table_name).all
-    return result.length
+    result = @client.from(table_name)
+    return result.count
   end
 
 end

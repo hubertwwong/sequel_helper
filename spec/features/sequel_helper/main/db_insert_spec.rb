@@ -21,12 +21,10 @@ describe DBInsert do
 
     before(:each) do
       # table name
-      @orig_table = "orig_table22"
-      @insert_table = "insert_update22"
-      @col_name1 = "name1"
-      @row_val_foo = "foo"
-      @row_val_bar = "bar"
-      @row_val_baz = "baz"
+      @orig_table = :orig_table22
+      @insert_table = :insert_update22
+      @col_name1 = :name1
+      @col_start_date = :start_date
 
       # db init.
       @dbi = DBInsert.new(db_params)
@@ -44,12 +42,14 @@ describe DBInsert do
       # can't use instance variables for some reason.
       begin
         @dbi.client.create_table @orig_table do
-          primary_key "id"
-          String "name1"
+          primary_key :id
+          String :name1
+          DateTime :start_date
         end
         @dbi.client.create_table @insert_table do
-          primary_key "id"
-          String "name1"
+          primary_key :id
+          String :name1
+          DateTime :start_date
         end
       rescue Sequel::Error => e
         @log.debug e
@@ -61,11 +61,10 @@ describe DBInsert do
       #@log.debug @roe_val_bar
 
       # insert some table in orig table...
-      @dbi.client[@orig_table.to_sym].insert([@col_name1], [@row_val_foo])
-      @dbi.client[@orig_table.to_sym].insert([@col_name1], [@row_val_bar])
-
-      # insert stuff into the new table
-      @dbi.client[@insert_table.to_sym].insert([@col_name1], [@row_val_baz])
+      100.times do |i|
+        @dbi.client[@orig_table.to_sym].insert(
+          [@col_name1, @col_start_date], ["name" + i.to_s, (Date.today-i)])
+      end
     end
 
     describe "connect" do
@@ -75,18 +74,12 @@ describe DBInsert do
       end
     end
 
-    describe "insert_select" do
+    describe "import_from" do
       it "basic" do
-        table_name = @insert_table
-        table_cols = [@col_name1]
-        select_stmt = "o.name1" +
-                      " FROM orig_table22 o LEFT JOIN insert_update22 i" +
-                      " ON i.id=o.id"
-        insert_params = {table_name: table_name,
-                         table_cols: table_cols,
-                         select_stmt: select_stmt}
-
-        expect(@dbi.insert_select(insert_params)).to be == true
+        where_param = "start_date > ?", (Date.today-4)
+        where_param = "start_date > ?", "2014-09-10"
+        result = @dbi.import_from(@orig_table, @insert_table, [:name1, :start_date], where_param)
+        expect(result).to be == 0
       end
     end
   end

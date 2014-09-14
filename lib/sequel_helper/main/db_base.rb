@@ -7,7 +7,7 @@ require_relative "sequel_factory"
 class DBBase
 
   # sequel object and log object.
-  attr_accessor :client, :log
+  attr_accessor :client
 
   # connect to the db.
   def initialize(db_params)

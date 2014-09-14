@@ -52,7 +52,7 @@ describe DBQuery do
     end
 
     describe "row_exist?" do
-      xit "basic" do
+      it "basic" do
         expect(@dbq.row_exist?(@row_exist_table)).to be == true
       end
 
