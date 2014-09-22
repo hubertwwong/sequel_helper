@@ -17,7 +17,7 @@ class DBInsert < DBBase
   # table_cols - array of table col names. source and dest to match to simplify.
   # where_params - see sequel where stmt for details. i dont think you can pass {}
   def import_from(src_table, dest_table, table_cols, where_param)
-    @client.loggers << @log
+    #@client.loggers << @log
     # copy from src to dest.
     return @client[dest_table].import(table_cols,
              @client[src_table].select(*table_cols).where(where_param))
@@ -29,7 +29,7 @@ class DBInsert < DBBase
   # DO NOT USE...
   def insert_select(params = {})
     db_str = GenInsert.insert_select(params)
-    @log.debug db_str
+    #@log.debug db_str
     @client.run db_str
 
     return true
