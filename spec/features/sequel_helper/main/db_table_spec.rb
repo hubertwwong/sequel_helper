@@ -42,7 +42,7 @@ describe DBTable do
 
       it "basic" do
         # clone table
-        @dbt.clone_table(@orig_table, @clone_table)
+        @dbt.clone(@orig_table, @clone_table)
 
         # check if the cloned table exist.
         expect(@dbt.client.table_exists? @clone_table).to be == true

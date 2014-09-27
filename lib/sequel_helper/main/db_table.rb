@@ -1,4 +1,5 @@
 require_relative "db_base"
+require_relative "../gen/gen_table"
 require_relative "../util/log_factory"
 
 class DBTable < DBBase
@@ -12,8 +13,8 @@ class DBTable < DBBase
   # MYSQL SYNTAX.
   #
   # takes symbol... or should do.
-  def clone_table(orig_name, new_name)
-    @client.run "CREATE TABLE " + new_name.to_s + " LIKE " + orig_name.to_s + ";"
+  def clone(orig_name, new_name)
+    @client.run GenTable.clone(orig_name, new_name)
   end
 
 end
