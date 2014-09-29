@@ -339,14 +339,14 @@ class GenString
     end
     
     # construct stru.
-    final_str = open_by.to_s + prefix.to_s + array_vals[0] + suffix.to_s
+    final_str = open_by.to_s + prefix.to_s + array_vals[0].to_s + suffix.to_s
     
     # load first param.
     array_vals.each_with_index do |array_val, i|
       # skip the first item since you used it already.
       if i != 0
         final_str = final_str + seperator.to_s + 
-                    prefix.to_s + array_val + suffix.to_s
+                    prefix.to_s + array_val.to_s + suffix.to_s
       end
     end
     

@@ -1,5 +1,6 @@
 require_relative "db_base"
 require_relative "db_table"
+require_relative "db_load_data"
 require_relative "../util/log_factory"
 
 class DBImport < DBBase
@@ -7,6 +8,7 @@ class DBImport < DBBase
   def initialize(db_params)
     super(db_params)
     @db_table = DBTable.new(db_params)
+    @db_load_data = DBLoadData.new(db_params)
     @log = LogFactory.build
   end
 
@@ -30,11 +32,11 @@ class DBImport < DBBase
     key_cols = params.fetch(:key_cols)
     # keys that you want to match against
     # it could be an id or a
-    table_name_temp = table_name_orig + "temp"
+    table_name_temp = table_name_orig.to_s + "_clone"
     # adding the sql table name so you can distinguish col from one table
     # to another.
-    table_name_orig_s = table_name_orig + " o"
-    table_name_temp_s = table_name_orig + "temp t"
+    #table_name_orig_s = table_name_orig.to_s + " o"
+    #table_name_temp_s = table_name_orig.to_s + "clone t"
 
     # -1 debugging
     ##############
@@ -42,16 +44,20 @@ class DBImport < DBBase
     
     # 0. drop temp table if exist.
     ##############################
-
-    @client.drop_table? table_name_temp
+    @client.drop_table? table_name_orig.to_s + "_clone"
 
     # 1. clone temp table.
     ######################
 
-    #self.clone_table(table_name_orig, table_name_temp)
-    @db_table.clone(table_name_orig, table_name_temp)
-    puts ">> CLONING TABLE " + table_name_orig + " t " + table_name_temp + " " + Time.now.to_s
+    @db_table.clone(table_name_orig.to_s)
+    #@log.debug ">> CLONING TABLE " + table_name_orig.to_s + " t " + table_name_temp + " " + Time.now.to_s
+    #puts ">> CLONING TABLE " + table_name_orig.to_s + " t " + table_name_temp + " " + Time.now.to_s
 
+    # 3. load data
+    ##############
+    csv_params[:table_name] = table_name_orig.to_s + "_clone"
+    @db_load_data.load_data csv_params
+    
     return false
   end
   

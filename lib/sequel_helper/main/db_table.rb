@@ -13,8 +13,16 @@ class DBTable < DBBase
   # MYSQL SYNTAX.
   #
   # takes symbol... or should do.
-  def clone(orig_name, new_name)
-    @client.run GenTable.clone(orig_name, new_name)
+  # second param is optionnal.
+  # if you dont supply one, it will append the string "_clone"
+  def clone(orig_name, new_name=nil)
+    if new_name == nil
+      result_sql = GenTable.clone(orig_name, orig_name.to_s + "_clone")
+    else
+      result_sql = GenTable.clone(orig_name, new_name)
+    end
+    @log.debug result_sql
+    @client.run result_sql
   end
 
 end

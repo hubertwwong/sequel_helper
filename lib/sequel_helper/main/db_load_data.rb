@@ -1,8 +1,8 @@
+require "pathname"
+
 require_relative "db_base"
 require_relative "../gen/gen_load_data"
 require_relative "../util/log_factory"
-
-require "pathname"
 
 class DBLoadData < DBBase
 
