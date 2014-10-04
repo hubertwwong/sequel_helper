@@ -78,7 +78,10 @@ describe DBInsert do
       it "basic" do
         #where_param = "start_date > ?", (Date.today-4)
         where_param = "start_date > ?", (Date.today - 1)
-        result = @dbi.import_from(@orig_table, @insert_table, [:name1, :start_date], where_param)
+        result = @dbi.import_from(src_table: @orig_table, 
+                                  dest_table: @insert_table, 
+                                  table_cols: [:name1, :start_date], 
+                                  where_param: where_param)
         expect(result).to be == 1
       end
     end
